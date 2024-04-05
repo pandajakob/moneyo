@@ -7,15 +7,38 @@
 
 import Foundation
 
+@MainActor
 class ViewModel: ObservableObject {
     
-    @Published var bubbles = [Bubble]()
-    @Published var expensesToAdd = [Expense]()
+    @Published var bubbles: [Bubble] = []
+    @Published var expensesToAdd: [Expense] = []
     
     @Published var currency = "💰"
 
     let defaults = UserDefaults.standard
   
+    func makeCreateAction() -> AddBubbleView.CreateAction {
+        return { [weak self] data in
+            try await BubbleRepository.create(data)
+            self?.bubbles.insert(data, at: 0)
+        }
+    }
+    
+    
+    func fetchBubbles() {
+        Task {
+            do {
+                bubbles = try await BubbleRepository.fetchData()
+            }
+            catch {
+                print("[ViewModel] couldn't fetch data \(error)")
+            }
+        }
+    }
+    
+    
+    
+    
     func save() {
         defaults.set(bubbles, forKey: "savedBubbles")
     }

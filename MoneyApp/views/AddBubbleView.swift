@@ -8,10 +8,17 @@
 import SwiftUI
 
 struct AddBubbleView: View {
+    
+    typealias CreateAction = (Bubble) async throws -> Void
+    var createAction: CreateAction
+    
     @State private var bubble: Bubble = Bubble(name: "", expenses: [])
     @FocusState var isFocused
     @State var bubbleColor: BubbleColors = BubbleColors.red
+    @State private var state = FormState.idle
+    
     @EnvironmentObject var vm: ViewModel
+    
     @Environment(\.dismiss) var dismiss
     
     var formIsValid: Bool {
@@ -42,6 +49,8 @@ struct AddBubbleView: View {
                                     .tag(color)
                             }
                         }.pickerStyle(.palette)
+                            .onChange(of: bubbleColor) {
+                            }
                     } label: {
                         Image(systemName: "circle.fill")
                             .tint(bubbleColor.color)
@@ -53,11 +62,15 @@ struct AddBubbleView: View {
                     Spacer()
                     Button {
                         bubble.color = bubbleColor.rawValue
-                        withAnimation {
-                            vm.bubbles.append(bubble)
+                        createBubble()
+                        if state == .working {
+                            ProgressView()
+                        } else {
+                            Text("create data")
                         }
-                        dismiss()
-                    } label: {
+                    }
+                
+                label: {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(width: 110, height: 55)
                             .shadow(radius: 3, x: 3, y: 3)
@@ -68,7 +81,9 @@ struct AddBubbleView: View {
                     }.disabled(!formIsValid)
                         .padding(.vertical)
                         .padding(.vertical)
-
+                    
+                } .alert("Cannot Create data", isPresented: $state.isError, actions: {}) {
+                    Text("Sorry, something went wrong.")
                 }
                 
             }
@@ -78,10 +93,40 @@ struct AddBubbleView: View {
         }
         
     }
+    private func createBubble() {
+        Task {
+            state = .working
+            do {
+                try await createAction(bubble)
+                dismiss()
+            }
+            catch {
+                print("Cannot create post: \(error)")
+                state = .error
+                
+            }
+            
+        }
+    }
     
     
+}
+private extension AddBubbleView {
+    enum FormState {
+        case idle, working, error
+        
+        var isError: Bool {
+            get {
+                self == .error
+            }
+            set {
+                guard !newValue else { return }
+                self = .idle
+            }
+        }
+    }
 }
 
-#Preview {
-    AddBubbleView()
-}
+//#Preview {
+//    AddBubbleView()
+//}

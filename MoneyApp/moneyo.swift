@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
-
+import Firebase
 @main
 struct moneyo: App {
+    init() {
+        FirebaseApp.configure()
+    }
     var body: some Scene {
         WindowGroup {
             BubbleView()

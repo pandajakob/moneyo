@@ -21,8 +21,11 @@ struct BubbleView: View {
                         .environmentObject(vm)
                         .dropDestination(for: Expense.self, action: { expense, location in
                             withAnimation {
-                                var datapoint = vm.bubbles.first(where: {$0.id == bubble.id})
-                                datapoint?.expenses.append(contentsOf: expense)
+                                
+                                guard var datapoint = vm.bubbles.first(where: {$0.id == bubble.id}) else {return}
+                                print(datapoint)
+                                print("expense", expense)
+                                datapoint.expenses.append(contentsOf: expense)
                                 
                                 for exp in expense {
                                     vm.expensesToAdd.removeAll(where: {$0.id == exp.id})
@@ -43,15 +46,16 @@ struct BubbleView: View {
                 
                 FormView()
                     .environmentObject(vm)
-                
-                    .popover(isPresented: $showPopOver) {
-                        AddBubbleView()
+                    .sheet(isPresented: $showPopOver) {
+                        AddBubbleView(createAction: vm.makeCreateAction())
                             .environmentObject(vm)
                             .presentationDetents([.height(300)])
                     }
                 
             }
-            .onAppear(perform: vm.load)
+            .onAppear {
+                vm.fetchBubbles()
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {

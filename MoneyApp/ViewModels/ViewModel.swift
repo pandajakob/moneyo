@@ -14,23 +14,30 @@ class ViewModel: ObservableObject {
     
     @Published var currency = "💰"
 
-    
-    
-    init() {
-        bubbles = [
-            Bubble(name: "cat1", expenses: [Expense(price: 100.0, name: "cake")]),
-            Bubble(name: "cat2", expenses: [Expense(price: 400.0, name: "cake")]),
-            Bubble(name: "cat3", expenses: [Expense(price: 200.0, name: "cake")]),
-            Bubble(name: "cat4", expenses: [Expense(price: 500.0, name: "cake")]),
-            Bubble(name: "cat5", expenses: [Expense(price: 250.0, name: "cake")]),
-        ]
+    let defaults = UserDefaults.standard
+  
+    func save() {
+        defaults.set(bubbles, forKey: "savedBubbles")
     }
+    
+    func load() {
+       bubbles = defaults.object(forKey:"savedBubbles") as? [Bubble] ?? [Bubble]()
+    }    
+    
 }
 
 
 
 
-
+//init() {
+//    bubbles = [
+//        Bubble(name: "cat1", expenses: [Expense(price: 100.0, name: "cake")]),
+//        Bubble(name: "cat2", expenses: [Expense(price: 400.0, name: "cake")]),
+//        Bubble(name: "cat3", expenses: [Expense(price: 200.0, name: "cake")]),
+//        Bubble(name: "cat4", expenses: [Expense(price: 500.0, name: "cake")]),
+//        Bubble(name: "cat5", expenses: [Expense(price: 250.0, name: "cake")]),
+//    ]
+//}
 
 //private func circles() {
 //    let maxWidth = UIScreen.main.bounds.width

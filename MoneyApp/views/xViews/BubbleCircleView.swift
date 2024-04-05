@@ -9,7 +9,10 @@ import SwiftUI
 
 struct BubbleCircleView: View {
     @GestureState var locationState = CGPoint(x: 100, y: 100)
-    @State var location = CGPoint(x: 100, y: 100)
+    let maxWidth = UIScreen.main.bounds.width
+    let maxHeigth = UIScreen.main.bounds.width
+    @State var location = CGPoint(x: UIScreen.main.bounds.width/2 ,
+                                  y: UIScreen.main.bounds.width/2)
     
     var frame: CGFloat
     let bubble: Bubble
@@ -46,9 +49,9 @@ struct BubbleCircleView: View {
                             
                             withAnimation {
                                 location = state.location
+                                saveLocations()
                             }
                         }
-                    
                 )
                 .onTapGesture {
                     withAnimation {
@@ -58,12 +61,26 @@ struct BubbleCircleView: View {
                 .sheet(isPresented: $sheet) {
                     DataView(bubble: bubble)
                 }
-        }
+        }.onAppear(perform: loadLocations)
             
         
     }
+    func saveLocations() {
+        let defaults = UserDefaults.standard
+        let x: Double = location.x
+        let y: Double = location.y
+        defaults.set(x,forKey: "lx")
+        defaults.set(y,forKey: "ly")
+    }
     
-    
+    func loadLocations(){
+        let defaults = UserDefaults.standard
+        let x = defaults.double(forKey: "lx")
+        let y = defaults.double(forKey: "ly")
+        location = CGPoint(x: x, y: y)
+      
+        
+    }
 }
 
 

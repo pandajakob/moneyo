@@ -22,6 +22,7 @@ struct Bubble: Identifiable, Transferable, Codable {
         return sum
     }
     
+    var color: String = AppColors.colors.randomElement()?.description ?? "red"
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .category)
     } 
@@ -39,7 +40,6 @@ struct Expense: Identifiable, Codable, Transferable {
         CodableRepresentation(contentType: .expense)
     }
 }
-
 
 
 extension UTType {

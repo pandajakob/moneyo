@@ -12,7 +12,6 @@
 		C44AA6522BBEE707004B20CE /* BubbleCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44AA6512BBEE707004B20CE /* BubbleCircleView.swift */; };
 		C44AA6542BBEE79B004B20CE /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44AA6532BBEE79B004B20CE /* ViewModel.swift */; };
 		C496B19C2BC054A100519CD7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C496B19B2BC054A100519CD7 /* GoogleService-Info.plist */; };
-		C496B19E2BC0551A00519CD7 /* BubbleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C496B19D2BC0551A00519CD7 /* BubbleRepository.swift */; };
 		C496B1A32BC0566800519CD7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C496B1A22BC0566800519CD7 /* FirebaseFirestore */; };
 		C496B1A52BC0568300519CD7 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C496B1A42BC0568300519CD7 /* FirebaseFirestoreSwift */; };
 		C49ECDCF2BBFC87700C24AB0 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49ECDCE2BBFC87700C24AB0 /* DataView.swift */; };
@@ -23,6 +22,7 @@
 		C4A19F612BBE77D300F91D60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4A19F602BBE77D300F91D60 /* Assets.xcassets */; };
 		C4A19F642BBE77D300F91D60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4A19F632BBE77D300F91D60 /* Preview Assets.xcassets */; };
 		C4BB4F402BC45AA600A77E1D /* moneyo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB4F3F2BC45AA600A77E1D /* moneyo.swift */; };
+		C4BB4F422BC46C7100A77E1D /* BubbleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB4F412BC46C7100A77E1D /* BubbleRepository.swift */; };
 		C4F163942BBF34F100BB99CC /* ExpenseRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F163932BBF34F100BB99CC /* ExpenseRectangleView.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +32,6 @@
 		C44AA6532BBEE79B004B20CE /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		C44AA6552BBEE994004B20CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = resources/Info.plist; sourceTree = "<group>"; };
 		C496B19B2BC054A100519CD7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C496B19D2BC0551A00519CD7 /* BubbleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BubbleRepository.swift; path = ../model/BubbleRepository.swift; sourceTree = "<group>"; };
 		C49ECDCE2BBFC87700C24AB0 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
 		C49ECDD12BBFCF7500C24AB0 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		C49ECDD32BBFD02A00C24AB0 /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
@@ -42,6 +41,7 @@
 		C4A19F602BBE77D300F91D60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4A19F632BBE77D300F91D60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C4BB4F3F2BC45AA600A77E1D /* moneyo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moneyo.swift; sourceTree = "<group>"; };
+		C4BB4F412BC46C7100A77E1D /* BubbleRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleRepository.swift; sourceTree = "<group>"; };
 		C4F163932BBF34F100BB99CC /* ExpenseRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRectangleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,7 +62,7 @@
 		C496B1A02BC0554C00519CD7 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				C496B19D2BC0551A00519CD7 /* BubbleRepository.swift */,
+				C4BB4F412BC46C7100A77E1D /* BubbleRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -242,13 +242,13 @@
 			files = (
 				C44AA6542BBEE79B004B20CE /* ViewModel.swift in Sources */,
 				C49ECDCF2BBFC87700C24AB0 /* DataView.swift in Sources */,
-				C496B19E2BC0551A00519CD7 /* BubbleRepository.swift in Sources */,
 				C4A19F5F2BBE77D200F91D60 /* BubbleView.swift in Sources */,
 				C4BB4F402BC45AA600A77E1D /* moneyo.swift in Sources */,
 				C428828F2BBE8BC6002CC5DC /* model.swift in Sources */,
 				C44AA6522BBEE707004B20CE /* BubbleCircleView.swift in Sources */,
 				C49ECDD22BBFCF7500C24AB0 /* AppColors.swift in Sources */,
 				C49ECDD42BBFD02A00C24AB0 /* FormView.swift in Sources */,
+				C4BB4F422BC46C7100A77E1D /* BubbleRepository.swift in Sources */,
 				C49ECDD62BBFDBBD00C24AB0 /* AddBubbleView.swift in Sources */,
 				C4F163942BBF34F100BB99CC /* ExpenseRectangleView.swift in Sources */,
 			);

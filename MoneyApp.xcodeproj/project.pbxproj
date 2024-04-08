@@ -19,10 +19,10 @@
 		C49ECDD22BBFCF7500C24AB0 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49ECDD12BBFCF7500C24AB0 /* AppColors.swift */; };
 		C49ECDD42BBFD02A00C24AB0 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49ECDD32BBFD02A00C24AB0 /* FormView.swift */; };
 		C49ECDD62BBFDBBD00C24AB0 /* AddBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49ECDD52BBFDBBD00C24AB0 /* AddBubbleView.swift */; };
-		C4A19F5D2BBE77D200F91D60 /* moneyo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A19F5C2BBE77D200F91D60 /* moneyo.swift */; };
 		C4A19F5F2BBE77D200F91D60 /* BubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A19F5E2BBE77D200F91D60 /* BubbleView.swift */; };
 		C4A19F612BBE77D300F91D60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4A19F602BBE77D300F91D60 /* Assets.xcassets */; };
 		C4A19F642BBE77D300F91D60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4A19F632BBE77D300F91D60 /* Preview Assets.xcassets */; };
+		C4BB4F402BC45AA600A77E1D /* moneyo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB4F3F2BC45AA600A77E1D /* moneyo.swift */; };
 		C4F163942BBF34F100BB99CC /* ExpenseRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F163932BBF34F100BB99CC /* ExpenseRectangleView.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,10 +38,10 @@
 		C49ECDD32BBFD02A00C24AB0 /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 		C49ECDD52BBFDBBD00C24AB0 /* AddBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBubbleView.swift; sourceTree = "<group>"; };
 		C4A19F592BBE77D200F91D60 /* MoneyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C4A19F5C2BBE77D200F91D60 /* moneyo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moneyo.swift; sourceTree = "<group>"; };
 		C4A19F5E2BBE77D200F91D60 /* BubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleView.swift; sourceTree = "<group>"; };
 		C4A19F602BBE77D300F91D60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4A19F632BBE77D300F91D60 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C4BB4F3F2BC45AA600A77E1D /* moneyo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moneyo.swift; sourceTree = "<group>"; };
 		C4F163932BBF34F100BB99CC /* ExpenseRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRectangleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -142,8 +142,8 @@
 		C4A19F5B2BBE77D200F91D60 /* MoneyApp */ = {
 			isa = PBXGroup;
 			children = (
+				C4BB4F3F2BC45AA600A77E1D /* moneyo.swift */,
 				C44AA6552BBEE994004B20CE /* Info.plist */,
-				C4A19F5C2BBE77D200F91D60 /* moneyo.swift */,
 				C49ECDCD2BBFC83400C24AB0 /* views */,
 				C49ECDCA2BBFC81A00C24AB0 /* ViewModels */,
 				C496B1A02BC0554C00519CD7 /* Repositories */,
@@ -244,11 +244,11 @@
 				C49ECDCF2BBFC87700C24AB0 /* DataView.swift in Sources */,
 				C496B19E2BC0551A00519CD7 /* BubbleRepository.swift in Sources */,
 				C4A19F5F2BBE77D200F91D60 /* BubbleView.swift in Sources */,
+				C4BB4F402BC45AA600A77E1D /* moneyo.swift in Sources */,
 				C428828F2BBE8BC6002CC5DC /* model.swift in Sources */,
 				C44AA6522BBEE707004B20CE /* BubbleCircleView.swift in Sources */,
 				C49ECDD22BBFCF7500C24AB0 /* AppColors.swift in Sources */,
 				C49ECDD42BBFD02A00C24AB0 /* FormView.swift in Sources */,
-				C4A19F5D2BBE77D200F91D60 /* moneyo.swift in Sources */,
 				C49ECDD62BBFDBBD00C24AB0 /* AddBubbleView.swift in Sources */,
 				C4F163942BBF34F100BB99CC /* ExpenseRectangleView.swift in Sources */,
 			);

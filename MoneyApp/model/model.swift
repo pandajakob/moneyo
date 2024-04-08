@@ -23,10 +23,7 @@ struct Bubble: Identifiable, Transferable, Codable {
     }
     
     var color: String = AppColors.colors.randomElement()?.description ?? "red"
-    
-    var px: Double = 0
-    var py: Double = 0
-    var size: Double = 100
+  
     
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .category)

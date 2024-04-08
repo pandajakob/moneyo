@@ -23,16 +23,23 @@ struct FormView: View {
     var body: some View {
         VStack(alignment: .center) {
             HStack {
-                TextField("999", text: $textField)
-                    .multilineTextAlignment(.trailing)
+//                Spacer()
+                TextField("999💰", text: $textField)
+                    .multilineTextAlignment(.center)
                     .keyboardType(.numberPad)
                     .focused($isFocused)
                 
-                Text(vm.currency)
+
+                
+                
+//                Text(vm.currency)
+//                    .multilineTextAlignment(.leading)
+//                    Spacer()
+                
             }
             .foregroundStyle(.black)
             .font(.title).bold()
-            .frame(width: 100)
+            .scaledToFit()
             
             Button {
                 guard let price = Double(textField) else { return }
@@ -50,6 +57,7 @@ struct FormView: View {
                             .bold()
                     }
                     .frame(width: 100, height: 50)
+                    .foregroundStyle(isValid ? .black : .secondary)
             }.disabled(!isValid)
             
         }

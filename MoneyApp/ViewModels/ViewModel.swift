@@ -36,16 +36,17 @@ class ViewModel: ObservableObject {
         }
     }
     
-    
-    
-    
-    func save() {
-        defaults.set(bubbles, forKey: "savedBubbles")
+    func updateBouble(bubble: Bubble) {
+        Task {
+            do {
+                try await BubbleRepository.updateBubble(bubble: bubble)
+            } catch {
+                print("[viewModel] couldn't update bouble")
+            }
+        }
     }
     
-    func load() {
-       bubbles = defaults.object(forKey:"savedBubbles") as? [Bubble] ?? [Bubble]()
-    }    
+       
     
 }
 

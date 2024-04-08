@@ -17,14 +17,14 @@ struct ExpenseRectangleView: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
             .overlay {
-                Text(expense.name + "\(expense.price)" + ViewModel().currency)
+                Text(expense.name + "\(Int(expense.price))" + ViewModel().currency)
                     .font(.title2)
                     .bold()
                     .foregroundStyle(.white)
             }
             .position(location)
             .gesture(
-                DragGesture( minimumDistance: 25, coordinateSpace: .local)
+                DragGesture( minimumDistance: 20, coordinateSpace: .local)
                     .updating($locationState) { currentState, pastState, transaction in
                         pastState = currentState.location
                         transaction.animation = .easeInOut
@@ -37,7 +37,6 @@ struct ExpenseRectangleView: View {
                         }
                     }
                     .onChanged { state in
-                        
                         withAnimation {
                             location = state.location
                         }

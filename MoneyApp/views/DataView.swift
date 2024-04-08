@@ -20,13 +20,14 @@ struct DataView: View {
                             HStack {
                                 Text(expense.name)
                                 Spacer()
-                                Text("\(expense.price)")
+                                Text("\(Int(expense.price))" + "💰")
                             }
-                                .font(.headline)
-                                .padding(.horizontal)
+                            .foregroundStyle(.white)
+                            .font(.headline)
+                            .padding(.horizontal)
                         }
                         .padding()
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.black)
                 }
             }
             .navigationTitle(bubble.name)

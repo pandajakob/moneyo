@@ -9,23 +9,30 @@ import SwiftUI
 
 struct BubbleView: View {
     
+//    typealias CreateAction = (Bubble) async throws -> Void
+//    var createAction: CreateAction
+//    
     @StateObject var vm = ViewModel()
-    
     @State private var showPopOver = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
                 ForEach(vm.bubbles) { bubble in
-                    BubbleCircleView(frame: CGFloat.random(in: 100...300), bubble: bubble)
+                    BubbleCircleView(bubble: bubble)
                         .foregroundStyle(AppColors().stringToColor(for: bubble.color))
                         .environmentObject(vm)
                         .dropDestination(for: Expense.self, action: { expense, location in
                             withAnimation {
                                 
-                                guard var datapoint = vm.bubbles.first(where: {$0.id == bubble.id}) else {return}
-                                print(datapoint)
-                                print("expense", expense)
-                                datapoint.expenses.append(contentsOf: expense)
+                                guard var index = vm.bubbles.firstIndex(where: {$0.id == bubble.id}) else { return }
+                                
+                                
+                                withAnimation {
+                                    vm.bubbles[index].expenses.append(contentsOf: expense)
+                                    
+                                    vm.updateBouble(bubble: vm.bubbles[index])
+                                }
                                 
                                 for exp in expense {
                                     vm.expensesToAdd.removeAll(where: {$0.id == exp.id})
@@ -38,7 +45,7 @@ struct BubbleView: View {
                 
                 ForEach(vm.expensesToAdd) { expense in
                     ExpenseRectangleView(expense: expense)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(.gray)
                         .frame(width: 150, height: 60)
                         .environmentObject(vm)
                     
@@ -69,6 +76,8 @@ struct BubbleView: View {
             }
         }
     }
+    
+    
 }
 
 #Preview {

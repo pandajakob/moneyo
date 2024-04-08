@@ -1,35 +1,36 @@
 //
-//  BubbleRepository.swift
+//  ExpenseRepository.swift
 //  MoneyApp
 //
-//  Created by Jakob Michaelsen on 05/04/2024.
+//  Created by Jakob Michaelsen on 08/04/2024.
 //
-
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct BubbleRepository {
-    static let collection = Firestore.firestore().collection("bubbles")
+struct ExpenseRepository {
+    static let collection = Firestore.firestore().collection("expenses")
     
-    static func create(_ bubble: Bubble) async throws {
-        let document = collection.document(bubble.id.uuidString)
-        try await document.setData(from: bubble)
+    static func create(_ expense: Expense) async throws {
+        let document = collection.document(expense.id.uuidString)
+        try await document.setData(from: expense)
     }
     
-    static func fetchAllBubbles() async throws -> [Bubble] {
+    static func fetchAllExpenses(filter: (Expense) -> Bool) async throws -> [Expense] {
+        
         let snapshot = try await collection
-//            .order(by: "timeStamp", descending: true)
+            .order(by: "timestamp", descending: true)
             .getDocuments()
         let data = snapshot.documents.compactMap { document in
-            try! document.data(as: Bubble.self)
+            try! document.data(as: Expense.self)
         }
-        return data
+        
+        return data.filter(filter)
     }
     
-    static func updateBubble(bubble: Bubble) async throws {
-        let document = collection.document(bubble.id.uuidString)
-        try await document.setData(from: bubble)
+    static func updateBubble(expense: Expense) async throws {
+        let document = collection.document(expense.id.uuidString)
+        try await document.setData(from: expense)
     }
 }
 

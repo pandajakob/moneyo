@@ -11,7 +11,7 @@ import Foundation
 class ViewModel: ObservableObject {
     
     @Published var bubbles: [Bubble] = []
-    @Published var expensesToAdd: [Expense] = []
+    @Published var expenses: [Expense] = []
     
     @Published var currency = "💰"
 
@@ -24,11 +24,10 @@ class ViewModel: ObservableObject {
         }
     }
     
-    
     func fetchBubbles() {
         Task {
             do {
-                bubbles = try await BubbleRepository.fetchData()
+                bubbles = try await BubbleRepository.fetchAllBubbles()
             }
             catch {
                 print("[ViewModel] couldn't fetch data \(error)")
@@ -46,7 +45,28 @@ class ViewModel: ObservableObject {
         }
     }
     
-       
+    func addExpense(price: Double, name: String) {
+        let newExpense = Expense(price: price, name: name)
+        Task {
+            do {
+                try await ExpenseRepository.create(newExpense)
+            }
+            catch {
+                print("[ViewModel] couldn't create expense \(error)")
+            }
+        }
+        expenses.append(newExpense)
+    }
+    
+    func fetchAllExpensesNotInABubble() {
+        Task {
+            do {
+                expenses = try await ExpenseRepository.fetchAllExpenses(filter: { $0.bubbleId == nil })
+            } catch {
+                print("[viewModel] couldn't fetch expenses")
+            }
+        }
+    }
     
 }
 

@@ -38,6 +38,8 @@ struct Expense: Identifiable, Codable, Transferable {
     
     var timestamp = Date()
     
+    var bubbleId: UUID?
+    
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .expense)
     }

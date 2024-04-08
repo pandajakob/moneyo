@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct BubbleView: View {
-    
-//    typealias CreateAction = (Bubble) async throws -> Void
-//    var createAction: CreateAction
-//    
+       
     @StateObject var vm = ViewModel()
     @State private var showPopOver = false
     
@@ -35,7 +32,7 @@ struct BubbleView: View {
                                 }
                                 
                                 for exp in expense {
-                                    vm.expensesToAdd.removeAll(where: {$0.id == exp.id})
+                                    vm.expenses.removeAll(where: {$0.id == exp.id})
                                 }
                             }
                             return true
@@ -43,7 +40,7 @@ struct BubbleView: View {
                 }
                 
                 
-                ForEach(vm.expensesToAdd) { expense in
+                ForEach(vm.expenses) { expense in
                     ExpenseRectangleView(expense: expense)
                         .foregroundStyle(.gray)
                         .frame(width: 150, height: 60)
@@ -62,6 +59,7 @@ struct BubbleView: View {
             }
             .onAppear {
                 vm.fetchBubbles()
+                vm.fetchAllExpensesNotInABubble()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

@@ -62,7 +62,7 @@ struct AddBubbleView: View {
                     Spacer()
                     Button {
                         bubble.color = bubbleColor.rawValue
-                        bubble.expenses = [Expense(price: 100.0, name: "hello"), Expense(price: 1230, name: "hello")]
+                        
                         createBubble()
                         if state == .working {
                             ProgressView()

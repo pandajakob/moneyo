@@ -19,22 +19,23 @@ struct BubbleCircleView: View {
         var sum = 0.0
         
         vm.bubbles.forEach({ b in
-            sum += b.sumOfExpenses
+//            sum += b.sumOfExpenses
         })
         
-        let bubbleArea = screenArea * bubble.sumOfExpenses/sum
-        let bubbleDiameter = sqrt(bubbleArea/Double.pi)*2
+//        let bubbleArea = screenArea * bubble.sumOfExpenses/sum
+//        let bubbleDiameter = sqrt(bubbleArea/Double.pi)*2
         
         //        print("bubbleSum: ", bubble.sumOfExpenses/sum)
         //        print("screenArea",screenArea)
         //        print("diameter", bubbleDiameter)
         //        print("area", bubbleArea)
         
-        if bubbleDiameter > 80 {
-            return CGFloat(bubbleDiameter)
-        } else {
-            return 80
-        }
+//        if bubbleDiameter > 80 {
+//            return CGFloat(bubbleDiameter)
+//        } else {
+//            return 80
+//        }
+        return 150
         
         
     }
@@ -58,7 +59,7 @@ struct BubbleCircleView: View {
                     VStack {
                         Text(bubble.name)
                             .font(.headline)
-                        Text("\(Int(bubble.sumOfExpenses))💰")
+//                        Text("\(Int(bubble.sumOfExpenses))💰")
                             .font(.callout)
                     }
                     .foregroundStyle(.white)
@@ -93,15 +94,22 @@ struct BubbleCircleView: View {
                     }
                 }
                 .sheet(isPresented: $sheet) {
-                    DataView(bubble: bubble)
+                    DataView(expenses: vm.expensesInBubble)
+                        .navigationTitle(bubble.name)
+                        .onAppear {
+                            vm.fetchExpensesForBubble(bubble: bubble)
+                        }
+                        
                 }
-        }.onAppear { loadLocations(bubble: bubble) }
+        }.onAppear { loadLocations(bubble: bubble)  }
         
         
         
         
         
     }
+    
+    
     
     let defaults = UserDefaults.standard
     

@@ -12,15 +12,15 @@ struct Bubble: Identifiable, Transferable, Codable {
     var id = UUID()
     
     var name: String
-    var expenses: [Expense]
+//    var expenses: [Expense]
     
-    var sumOfExpenses: Double {
-        var sum = 0.0
-        expenses.forEach { expense in
-           sum += expense.price
-        }
-        return sum
-    }
+//    var sumOfExpenses: Double {
+//        var sum = 0.0
+//        expenses.forEach { expense in
+//           sum += expense.price
+//        }
+//        return sum
+//    }
     
     var color: String = AppColors.colors.randomElement()?.description ?? "red"
   

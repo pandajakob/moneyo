@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C4233DEE2BC06CE8006CD8FC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C4233DED2BC06CE8006CD8FC /* FirebaseAnalytics */; };
 		C428828F2BBE8BC6002CC5DC /* model.swift in Sources */ = {isa = PBXBuildFile; fileRef = C428828E2BBE8BC6002CC5DC /* model.swift */; };
+		C439DDBD2BC554700095CFE6 /* EditExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C439DDBC2BC554700095CFE6 /* EditExpenseView.swift */; };
 		C44AA6522BBEE707004B20CE /* BubbleCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44AA6512BBEE707004B20CE /* BubbleCircleView.swift */; };
 		C44AA6542BBEE79B004B20CE /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44AA6532BBEE79B004B20CE /* ViewModel.swift */; };
 		C496B19C2BC054A100519CD7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C496B19B2BC054A100519CD7 /* GoogleService-Info.plist */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		C428828E2BBE8BC6002CC5DC /* model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = model.swift; sourceTree = "<group>"; };
+		C439DDBC2BC554700095CFE6 /* EditExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditExpenseView.swift; sourceTree = "<group>"; };
 		C44AA6512BBEE707004B20CE /* BubbleCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleCircleView.swift; sourceTree = "<group>"; };
 		C44AA6532BBEE79B004B20CE /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		C44AA6552BBEE994004B20CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = resources/Info.plist; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				C4A19F5E2BBE77D200F91D60 /* BubbleView.swift */,
 				C49ECDD32BBFD02A00C24AB0 /* FormView.swift */,
 				C49ECDCE2BBFC87700C24AB0 /* DataView.swift */,
+				C439DDBC2BC554700095CFE6 /* EditExpenseView.swift */,
 				C49ECDD02BBFCE1300C24AB0 /* xViews */,
 			);
 			path = views;
@@ -257,6 +260,7 @@
 				C49ECDD42BBFD02A00C24AB0 /* FormView.swift in Sources */,
 				C4BB4F442BC46F7B00A77E1D /* expenses.swift in Sources */,
 				C4BB4F422BC46C7100A77E1D /* BubbleRepository.swift in Sources */,
+				C439DDBD2BC554700095CFE6 /* EditExpenseView.swift in Sources */,
 				C49ECDD62BBFDBBD00C24AB0 /* AddBubbleView.swift in Sources */,
 				C4F163942BBF34F100BB99CC /* ExpenseRectangleView.swift in Sources */,
 			);

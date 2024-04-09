@@ -11,8 +11,10 @@ import Foundation
 class ViewModel: ObservableObject {
     
     @Published var bubbles: [Bubble] = []
-    @Published var expenses: [Expense] = []
-    
+    @Published var expensesNotInABubble: [Expense] = []
+    @Published var expensesInBubble: [Expense] = []
+    @Published var allExpensesInABubble: [Expense] = []
+
     @Published var currency = "💰"
 
     let defaults = UserDefaults.standard
@@ -35,15 +37,18 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func updateBouble(bubble: Bubble) {
+    func fetchAllExpensesInABubble() {
         Task {
             do {
-                try await BubbleRepository.updateBubble(bubble: bubble)
-            } catch {
-                print("[viewModel] couldn't update bouble")
+                allExpensesInABubble = try await ExpenseRepository.fetchAllExpenses(filter: { $0.bubbleId != nil })
+            }
+            catch {
+                print("[ViewModel] couldn't fetch data \(error)")
             }
         }
+        
     }
+    
     
     func addExpense(price: Double, name: String) {
         let newExpense = Expense(price: price, name: name)
@@ -55,18 +60,40 @@ class ViewModel: ObservableObject {
                 print("[ViewModel] couldn't create expense \(error)")
             }
         }
-        expenses.append(newExpense)
+        expensesNotInABubble.append(newExpense)
     }
     
     func fetchAllExpensesNotInABubble() {
         Task {
             do {
-                expenses = try await ExpenseRepository.fetchAllExpenses(filter: { $0.bubbleId == nil })
+                expensesNotInABubble = try await ExpenseRepository.fetchAllExpenses(filter: { $0.bubbleId == nil })
             } catch {
                 print("[viewModel] couldn't fetch expenses")
             }
         }
     }
+    
+    func addExpenseToBubble(bubble: Bubble, expense: Expense) async throws {
+        Task {
+            do {
+                try await BubbleRepository.addExpenseToBubble(bubble: bubble, expense: expense)
+            } catch {
+                print("[viewModel] couldn't add expense to bubble")
+            }
+        }
+    }
+    
+    func fetchExpensesForBubble(bubble: Bubble) {
+        Task {
+            do {
+                expensesInBubble = try await BubbleRepository.fetchExpensesForBubble(bubble: bubble)
+            }
+            catch {
+                print("[viewModel] couldn't fetch expenses for bubble")                
+            }
+        }
+    }
+    
     
 }
 

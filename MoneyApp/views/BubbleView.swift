@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BubbleView: View {
-       
+    
     @StateObject var vm = ViewModel()
     @State private var showPopOver = false
     
@@ -20,29 +20,24 @@ struct BubbleView: View {
                         .foregroundStyle(AppColors().stringToColor(for: bubble.color))
                         .environmentObject(vm)
                         .dropDestination(for: Expense.self, action: { expense, location in
-                            withAnimation {
-                                
-                                guard var index = vm.bubbles.firstIndex(where: {$0.id == bubble.id}) else { return }
-                                
-                                
-                                withAnimation {
-                                    vm.bubbles[index].expenses.append(contentsOf: expense)
-                                    
-                                    vm.updateBouble(bubble: vm.bubbles[index])
-                                }
-                                
-                                for exp in expense {
-                                    vm.expenses.removeAll(where: {$0.id == exp.id})
+                            
+                            var grabbedExpense = expense[0]
+                            grabbedExpense.bubbleId = bubble.id
+                            Task {
+                                do {
+                                    try await vm.addExpenseToBubble(bubble: bubble, expense: grabbedExpense)
+                                    vm.fetchAllExpensesNotInABubble()
                                 }
                             }
+                            
                             return true
                         })
                 }
                 
                 
-                ForEach(vm.expenses) { expense in
+                ForEach(vm.expensesNotInABubble) { expense in
                     ExpenseRectangleView(expense: expense)
-                        .foregroundStyle(.gray)
+                        .foregroundStyle(.black)
                         .frame(width: 150, height: 60)
                         .environmentObject(vm)
                     

@@ -12,7 +12,7 @@ struct AddBubbleView: View {
     typealias CreateAction = (Bubble) async throws -> Void
     var createAction: CreateAction
     
-    @State private var bubble: Bubble = Bubble(name: "", expenses: [])
+    @State private var bubble: Bubble = Bubble(name: "")
     @FocusState var isFocused
     @State var bubbleColor: BubbleColors = BubbleColors.red
     @State private var state = FormState.idle

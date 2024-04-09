@@ -28,10 +28,6 @@ struct ExpenseRepository {
         return data.filter(filter)
     }
     
-    static func updateBubble(expense: Expense) async throws {
-        let document = collection.document(expense.id.uuidString)
-        try await document.setData(from: expense)
-    }
 }
 
 private extension DocumentReference {

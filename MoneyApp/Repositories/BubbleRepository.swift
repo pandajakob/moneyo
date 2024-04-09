@@ -27,10 +27,22 @@ struct BubbleRepository {
         return data
     }
     
-    static func updateBubble(bubble: Bubble) async throws {
-        let document = collection.document(bubble.id.uuidString)
-        try await document.setData(from: bubble)
+    static func addExpenseToBubble(bubble: Bubble, expense: Expense) async throws {
+        let document = collection.document(bubble.id.uuidString).collection("expenses").document(expense.id.uuidString)
+        try await document.setData(from: expense)
     }
+    
+    
+    static func fetchExpensesForBubble(bubble: Bubble) async throws -> [Expense] {
+        let snapshot = try await collection.document(bubble.id.uuidString).collection("expenses")
+//            .order(by: "timeStamp", descending: true)
+            .getDocuments()
+        let data = snapshot.documents.compactMap { document in
+            try! document.data(as: Expense.self)
+        }
+        return data
+    }
+    
 }
 
 private extension DocumentReference {

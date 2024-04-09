@@ -94,6 +94,7 @@ struct AddBubbleView: View {
         }
         
     }
+    
     private func createBubble() {
         Task {
             state = .working

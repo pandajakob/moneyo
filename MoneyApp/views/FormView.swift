@@ -46,7 +46,7 @@ struct FormView: View {
                 isFocused = false
                 withAnimation {
                     textField.removeAll()
-                    vm.addExpense(price: price, name: "")
+                    vm.addExpense(price: price)
                 }
                 
             } label: {

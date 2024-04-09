@@ -28,6 +28,11 @@ struct ExpenseRepository {
         return data.filter(filter)
     }
     
+    static func deleteExpense(expense: Expense) async throws {
+        let document = collection.document(expense.id.uuidString)
+        try await document.delete()
+    }
+    
 }
 
 private extension DocumentReference {

@@ -17,7 +17,7 @@ struct ExpenseRectangleView: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
             .overlay {
-                Text(expense.name + "\(Int(expense.price))" + ViewModel().currency)
+                Text("\(Int(expense.price))" + ViewModel().currency)
                     .font(.title2)
                     .bold()
                     .foregroundStyle(.white)

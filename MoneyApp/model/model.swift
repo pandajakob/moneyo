@@ -34,7 +34,6 @@ struct Bubble: Identifiable, Transferable, Codable {
 struct Expense: Identifiable, Codable, Transferable {
     var id = UUID()
     var price: Double
-    var name: String
     
     var timestamp = Date()
     

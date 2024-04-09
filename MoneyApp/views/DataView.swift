@@ -10,6 +10,7 @@ import Charts
 
 struct DataView: View {
     
+    @Environment(\.dismiss) var dismiss
     let expenses: [Expense]
     
     private func maxExpense() -> Double {
@@ -25,7 +26,7 @@ struct DataView: View {
     }
     
     var lastMonth: [Expense] {
-        var array = expenses.filter { expense in
+        let array = expenses.filter { expense in
             Calendar.current.component(.month, from: expense.timestamp) == Calendar.current.component(.month, from: Date())
         }.sorted(by: {$0.timestamp < $1.timestamp})
         
@@ -33,7 +34,6 @@ struct DataView: View {
     }
     
     var body: some View {
-        NavigationStack {
             ScrollView {
                 ZStack {
                     RoundedRectangle(cornerRadius: 10)
@@ -43,10 +43,12 @@ struct DataView: View {
                     VStack(alignment: .leading) {
                         Text("January")
                             .font(.title3).bold()
+                            .foregroundStyle(.black)
                         
                         Text("\(sum)💰")
                             .font(.subheadline)
                             .fontWeight(.medium)
+                            .foregroundStyle(.black)
                         
                         Chart(lastMonth) { data in
                             LineMark(x: .value("date", Calendar.current.startOfDay(for: data.timestamp)), y: .value("spent", data.price))
@@ -92,27 +94,33 @@ struct DataView: View {
                 }.padding()
                 
             }
-            
-        }
-        
-        
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "arrow.down")
+                            .foregroundStyle(.black)
+                    }
+                }
+            }
     }
 }
 
 #Preview {
     NavigationStack {
         DataView(expenses: [
-            Expense(price: 100, name: "hej", timestamp: Date().addingTimeInterval(-86400)),
+            Expense(price: 100, timestamp: Date().addingTimeInterval(-86400)),
             
-            Expense(price: 100, name: "hej", timestamp: Date().addingTimeInterval(-172800)),
+            Expense(price: 100, timestamp: Date().addingTimeInterval(-172800)),
             
-            Expense(price: 400, name: "hej", timestamp: Date().addingTimeInterval(-259200)),
+            Expense(price: 400, timestamp: Date().addingTimeInterval(-259200)),
             
-            Expense(price: 200, name: "hej", timestamp: Date().addingTimeInterval(-545600)),
+            Expense(price: 200, timestamp: Date().addingTimeInterval(-545600)),
             
-            Expense(price: 450, name: "hej", timestamp: Date().addingTimeInterval(-845600)),
+            Expense(price: 450, timestamp: Date().addingTimeInterval(-845600)),
             
-            Expense(price: 230, name: "hej", timestamp: Date().addingTimeInterval(-1045600)),
+            Expense(price: 230, timestamp: Date().addingTimeInterval(-1045600)),
         ])
         
         .navigationTitle("Food/drinks")

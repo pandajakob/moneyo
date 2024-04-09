@@ -49,9 +49,8 @@ class ViewModel: ObservableObject {
         
     }
     
-    
-    func addExpense(price: Double, name: String) {
-        let newExpense = Expense(price: price, name: name)
+    func addExpense(price: Double) {
+        let newExpense = Expense(price: price)
         Task {
             do {
                 try await ExpenseRepository.create(newExpense)
@@ -94,6 +93,30 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func deleteBubble(bubble: Bubble) {
+        Task {
+            do {
+                try await BubbleRepository.deleteBubble(bubble: bubble)
+                bubbles.removeAll(where: {$0.id == bubble.id})
+            }
+            catch {
+                print("[ViewModel] couldn't delete bubble")
+            }
+        }
+    }
+    func deleteExpense(expense: Expense) {
+        Task {
+            do {
+                try await ExpenseRepository.deleteExpense(expense: expense)
+                allExpensesInABubble.removeAll(where: {$0.id == expense.id})
+                expensesNotInABubble.removeAll(where: {$0.id == expense.id})
+                expensesNotInABubble.removeAll(where: {$0.id == expense.id})
+            }
+            catch {
+                print("[ViewModel] couldn't delete bubble")
+            }
+        }
+    }
     
 }
 

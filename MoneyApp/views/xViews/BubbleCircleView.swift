@@ -14,27 +14,29 @@ struct BubbleCircleView: View {
     @State var location = CGPoint(x: Double(UIScreen.main.bounds.width)/Double.random(in: 0.5...4) ,
                                   y: Double(UIScreen.main.bounds.width)/Double.random(in: 0.5...4))
     
+    @State var bubbleDeleteViewPresented = false
+    
     var frame: CGFloat {
         let screenArea = maxWidth*maxHeigth
         var sum = 0.0
         
         vm.bubbles.forEach({ b in
-//            sum += b.sumOfExpenses
+            //            sum += b.sumOfExpenses
         })
         
-//        let bubbleArea = screenArea * bubble.sumOfExpenses/sum
-//        let bubbleDiameter = sqrt(bubbleArea/Double.pi)*2
+        //        let bubbleArea = screenArea * bubble.sumOfExpenses/sum
+        //        let bubbleDiameter = sqrt(bubbleArea/Double.pi)*2
         
         //        print("bubbleSum: ", bubble.sumOfExpenses/sum)
         //        print("screenArea",screenArea)
         //        print("diameter", bubbleDiameter)
         //        print("area", bubbleArea)
         
-//        if bubbleDiameter > 80 {
-//            return CGFloat(bubbleDiameter)
-//        } else {
-//            return 80
-//        }
+        //        if bubbleDiameter > 80 {
+        //            return CGFloat(bubbleDiameter)
+        //        } else {
+        //            return 80
+        //        }
         return 150
         
         
@@ -50,22 +52,39 @@ struct BubbleCircleView: View {
         NavigationStack {
             Circle()
                 .frame(width: frame, height: frame)
-                .contextMenu {
-                    Button("delete") {
-                        
-                    }
-                }
+            
                 .overlay {
                     VStack {
                         Text(bubble.name)
                             .font(.headline)
-//                        Text("\(Int(bubble.sumOfExpenses))💰")
+                        //                        Text("\(Int(bubble.sumOfExpenses))💰")
                             .font(.callout)
                     }
                     .foregroundStyle(.white)
                 }
+                .contextMenu {
+                    
+                    Button {
+                        bubbleDeleteViewPresented.toggle()
+                    } label: {
+                        HStack {
+                            Text("delete")
+                            Image(systemName: "trash")
+                        }
+                    }
+                    
+                    Button {
+                        
+                    } label: {
+                        HStack {
+                            Text("delete")
+                            Image(systemName: "square.and.pencil")
+                        }
+                    }
+                }
             
                 .position(location)
+            
                 .gesture(
                     DragGesture( minimumDistance: 20, coordinateSpace: .local)
                         .updating($locationState) { currentState, pastState, transaction in
@@ -88,22 +107,57 @@ struct BubbleCircleView: View {
                         }
                 )
             
+            
                 .onTapGesture {
                     withAnimation {
                         sheet.toggle()
                     }
                 }
                 .sheet(isPresented: $sheet) {
-                    DataView(expenses: vm.expensesInBubble)
-                        .navigationTitle(bubble.name)
-                        .onAppear {
-                            vm.fetchExpensesForBubble(bubble: bubble)
-                        }
-                        
+                    NavigationStack {
+                        DataView(expenses: vm.expensesInBubble)
+                            .onAppear {
+                                vm.fetchExpensesForBubble(bubble: bubble)
+                            }
+                            .navigationTitle(bubble.name)
+                            .toolbar {
+                                ToolbarItem(placement: .topBarTrailing) {
+                                    Button {
+                                        
+                                    } label: {
+                                        Image(systemName: "square.and.pencil")
+                                            .foregroundStyle(.black)
+                                    }
+                                }
+                               
+                            }
+                            
+                    }
+                    
                 }
-        }.onAppear { loadLocations(bubble: bubble)  }
-        
-        
+        }
+        .onAppear { loadLocations(bubble: bubble)  }
+        .sheet(isPresented: $bubbleDeleteViewPresented, content: {
+            VStack {
+                Text("are you sure you want to delete \(bubble.name) and its associated expenses?")
+                    .foregroundStyle(.black).font(.headline)
+                    .padding()
+                Button {
+                    vm.deleteBubble(bubble: bubble)
+                } label: {
+                    RoundedRectangle(cornerRadius: 10).foregroundStyle(.red)
+                        .overlay {
+                            Text("yes").font(.headline)
+                                .foregroundStyle(.white)
+                            
+                        }
+                        .frame(height: 50)
+                        .padding()
+                }
+            }
+            .presentationDetents([.height(225)])
+            
+        })
         
         
         

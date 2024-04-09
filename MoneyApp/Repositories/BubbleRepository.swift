@@ -27,6 +27,11 @@ struct BubbleRepository {
         return data
     }
     
+    static func deleteBubble(bubble: Bubble) async throws {
+        let document = collection.document(bubble.id.uuidString)
+        try await document.delete()
+    }
+    
     static func addExpenseToBubble(bubble: Bubble, expense: Expense) async throws {
         let document = collection.document(bubble.id.uuidString).collection("expenses").document(expense.id.uuidString)
         try await document.setData(from: expense)

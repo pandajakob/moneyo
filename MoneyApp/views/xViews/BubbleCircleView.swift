@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct BubbleCircleView: View {
-    @GestureState var locationState = CGPoint(x: 100, y: 100)
+    @GestureState var locationState = CGPoint(x: 200, y: 200)
     let maxWidth = UIScreen.main.bounds.width
     let maxHeigth = UIScreen.main.bounds.width
-    @State var location = CGPoint(x: Double(UIScreen.main.bounds.width)/Double.random(in: 0.5...4) ,
-                                  y: Double(UIScreen.main.bounds.width)/Double.random(in: 0.5...4))
+    @State var location = CGPoint()
     
     @State var bubbleDeleteViewPresented = false
     
@@ -136,14 +135,20 @@ struct BubbleCircleView: View {
                     
                 }
         }
-        .onAppear { loadLocations(bubble: bubble)  }
+        .onAppear {
+            loadLocations(bubble: bubble)
+        }
         .sheet(isPresented: $bubbleDeleteViewPresented, content: {
             VStack {
                 Text("are you sure you want to delete \(bubble.name) and its associated expenses?")
                     .foregroundStyle(.black).font(.headline)
                     .padding()
                 Button {
-                    vm.deleteBubble(bubble: bubble)
+                    withAnimation {
+                        vm.deleteBubble(bubble: bubble)
+                        vm.bubbles.removeAll(where: {$0.id == bubble.id})
+
+                    }
                 } label: {
                     RoundedRectangle(cornerRadius: 10).foregroundStyle(.red)
                         .overlay {
@@ -156,7 +161,6 @@ struct BubbleCircleView: View {
                 }
             }
             .presentationDetents([.height(225)])
-            
         })
         
         
@@ -175,11 +179,12 @@ struct BubbleCircleView: View {
         defaults.set(y, forKey: bubble.id.uuidString + "y")
     }
     
-    func loadLocations(bubble: Bubble){
+    func loadLocations(bubble: Bubble) {
         let x = defaults.double(forKey: bubble.id.uuidString + "x")
         let y = defaults.double(forKey: bubble.id.uuidString + "y")
         
         location = CGPoint(x: x, y: y)
+
     }
 }
 

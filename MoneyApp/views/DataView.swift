@@ -11,6 +11,12 @@ import Charts
 struct DataView: View {
     
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
+    
+    var textColor: Color {
+        colorScheme == .dark ? .white : .black
+    }
+    
     let expenses: [Expense]
     
     private func maxExpense() -> Double {
@@ -34,76 +40,75 @@ struct DataView: View {
     }
     
     var body: some View {
-            ScrollView {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundStyle(.gray.opacity(0.1))
-                        .shadow(radius: 3, x: 3, y: 3)
+        ScrollView {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundStyle(.gray.opacity(0.1))
+                    .shadow(radius: 3, x: 3, y: 3)
+                
+                VStack(alignment: .leading) {
+                    Text("January")
+                        .font(.title3).bold()
+                        .foregroundStyle(textColor)
                     
-                    VStack(alignment: .leading) {
-                        Text("January")
-                            .font(.title3).bold()
-                            .foregroundStyle(.black)
-                        
-                        Text("\(sum)💰")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundStyle(.black)
-                        
-                        Chart(lastMonth) { data in
-                            LineMark(x: .value("date", Calendar.current.startOfDay(for: data.timestamp)), y: .value("spent", data.price))
-                                .foregroundStyle(.orange)
-                                .interpolationMethod(.cardinal)
-                                .lineStyle(.init(lineWidth: 2))
-                        }
-                        .chartYScale(domain: 0...maxExpense())
-                        .chartXAxis {
-                            AxisMarks(preset: .extended, values: .stride (by: .day)) { value in
-                                AxisValueLabel(format: .dateTime.day())
-                            }
-                        }
-                        
+                    Text("\(sum)💰")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundStyle(textColor)
+                    
+                    Chart(lastMonth) { data in
+                        LineMark(x: .value("date", Calendar.current.startOfDay(for: data.timestamp)), y: .value("spent", data.price))
+                            .foregroundStyle(.orange)
+                            .interpolationMethod(.cardinal)
+                            .lineStyle(.init(lineWidth: 2))
                     }
-                    .padding()
-                    
+                    .chartYScale(domain: 0...maxExpense())
+                    .chartXAxis {
+                        AxisMarks(preset: .extended, values: .stride (by: .day)) { value in
+                            AxisValueLabel(format: .dateTime.day())
+                        }
+                    }
                     
                 }
-                .frame(height: 250)
                 .padding()
                 
-                VStack {
-                    
-                    ForEach(expenses) { expense in
-                        NavigationLink(destination: EditExpenseView(expense: expense)) {
-                            RoundedRectangle(cornerRadius: 10)
-                                .frame(height: 50)
-                                .overlay {
-                                    HStack {
-                                        Text(expense.timestamp.formatted())
-                                        Spacer()
-                                        Text("\(Int(expense.price))" + "💰")
-                                    }
-                                    .foregroundStyle(.black)
-                                    .font(.subheadline).fontWeight(.medium)
-                                    .padding(.horizontal)
-                                }
-                            
-                                .foregroundStyle(.gray.opacity(0.2))
-                        }
-                    }
-                }.padding()
                 
             }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "arrow.down")
-                            .foregroundStyle(.black)
+            .frame(height: 250)
+            .padding()
+            
+            VStack {
+                
+                ForEach(expenses) { expense in
+                    NavigationLink(destination: EditExpenseView(expense: expense)) {
+                        RoundedRectangle(cornerRadius: 10)
+                            .frame(height: 50)
+                            .overlay {
+                                HStack {
+                                    Text(expense.timestamp.formatted())
+                                    Spacer()
+                                    Text("\(Int(expense.price))" + "💰")
+                                }
+                                .foregroundStyle(textColor)                                    .font(.subheadline).fontWeight(.medium)
+                                .padding(.horizontal)
+                            }
+                        
+                            .foregroundStyle(.gray.opacity(0.2))
                     }
                 }
+            }.padding()
+            
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "arrow.down")
+                        .foregroundStyle(textColor)
+                }
             }
+        }
     }
 }
 

@@ -15,6 +15,7 @@ struct AddBubbleView: View {
     @State private var bubble: Bubble = Bubble(name: "")
     @FocusState var isFocused
     @State var bubbleColor: BubbleColors = BubbleColors.red
+    
     @State private var state = FormState.idle
     
     @EnvironmentObject var vm: ViewModel
@@ -62,21 +63,18 @@ struct AddBubbleView: View {
                     Spacer()
                     Button {
                         bubble.color = bubbleColor.rawValue
-                        
                         createBubble()
-                        if state == .working {
-                            ProgressView()
-                        } else {
-                            Text("create data")
-                        }
-                    }
-                
-                label: {
+                       
+                    } label: {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(width: 110, height: 55)
                             .shadow(radius: 3, x: 3, y: 3)
                             .overlay {
-                                Image(systemName: "plus").foregroundStyle(.white)
+                                if state == .working {
+                                    ProgressView()
+                                } else {
+                                    Image(systemName: "plus").foregroundStyle(.white)
+                                }
                             }
                         
                     }.disabled(!formIsValid)

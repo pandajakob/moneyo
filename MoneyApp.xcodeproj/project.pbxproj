@@ -11,7 +11,6 @@
 		C409F95F2BC6DF39000520DD /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = C409F95E2BC6DF39000520DD /* FirebaseAnalyticsOnDeviceConversion */; };
 		C409F9612BC6DF39000520DD /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C409F9602BC6DF39000520DD /* FirebaseAnalyticsSwift */; };
 		C409F9632BC6DF39000520DD /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = C409F9622BC6DF39000520DD /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		C409F9652BC6DF39000520DD /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = C409F9642BC6DF39000520DD /* FirebaseAppCheck */; };
 		C4233DEE2BC06CE8006CD8FC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C4233DED2BC06CE8006CD8FC /* FirebaseAnalytics */; };
 		C428828F2BBE8BC6002CC5DC /* model.swift in Sources */ = {isa = PBXBuildFile; fileRef = C428828E2BBE8BC6002CC5DC /* model.swift */; };
 		C439DDBD2BC554700095CFE6 /* EditExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C439DDBC2BC554700095CFE6 /* EditExpenseView.swift */; };
@@ -61,7 +60,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C409F9652BC6DF39000520DD /* FirebaseAppCheck in Frameworks */,
 				C409F9612BC6DF39000520DD /* FirebaseAnalyticsSwift in Frameworks */,
 				C496B1A52BC0568300519CD7 /* FirebaseFirestoreSwift in Frameworks */,
 				C496B1A32BC0566800519CD7 /* FirebaseFirestore in Frameworks */,
@@ -204,7 +202,6 @@
 				C409F95E2BC6DF39000520DD /* FirebaseAnalyticsOnDeviceConversion */,
 				C409F9602BC6DF39000520DD /* FirebaseAnalyticsSwift */,
 				C409F9622BC6DF39000520DD /* FirebaseAnalyticsWithoutAdIdSupport */,
-				C409F9642BC6DF39000520DD /* FirebaseAppCheck */,
 			);
 			productName = MoneyApp;
 			productReference = C4A19F592BBE77D200F91D60 /* MoneyApp.app */;
@@ -517,11 +514,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C496B1902BC0526400519CD7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		C409F9642BC6DF39000520DD /* FirebaseAppCheck */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C496B1902BC0526400519CD7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAppCheck;
 		};
 		C4233DED2BC06CE8006CD8FC /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

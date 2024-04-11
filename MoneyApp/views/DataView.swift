@@ -8,21 +8,22 @@
 import SwiftUI
 import Charts
 
+
+extension Date {
+    
+}
+
 struct DataView: View {
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
-    
+    @State var rotateArrow = true
     var textColor: Color {
         colorScheme == .dark ? .white : .black
     }
     
-    let expenses: [Expense]
+    var expenses: [Expense]
     
-    private func maxExpense() -> Double {
-        guard let expense = expenses.max(by: { $0.price < $1.price }) else { return 0 }
-        return expense.price*1.5
-    }
     var sum: Int {
         var sum = 0.0
         expenses.forEach { expense in
@@ -31,13 +32,39 @@ struct DataView: View {
         return Int(sum)
     }
     
-    var lastMonth: [Expense] {
-        let array = expenses.filter { expense in
-            Calendar.current.component(.month, from: expense.timestamp) == Calendar.current.component(.month, from: Date())
-        }.sorted(by: {$0.timestamp < $1.timestamp})
+    var firstOfMonth: Date {
+        let calendar = Calendar.current
+        var month = calendar.dateComponents([.month, .year], from: Date())
+        month.day = 1
         
+        return calendar.date(from: month) ?? Date()
+    }
+    
+    func filteredAndSortedExpenses(predicate: (Expense, Expense) -> Bool) -> [Expense] {
+        expenses
+        .filter({$0.timestamp >= firstOfMonth })
+        .sorted(by: predicate)
+    }
+    
+    var accumulatedGraph: [Expense] {
+        var array: [Expense] = []
+        
+        var expenseSum = 0.0
+    
+        filteredAndSortedExpenses(predicate: {$0.timestamp < $1.timestamp}).forEach { expense in
+            let newPrice = expense.price + expenseSum
+            
+            array.append(Expense(price: newPrice, timestamp: expense.timestamp))
+            
+            expenseSum += expense.price
+        }
+        
+        
+//        array.insert(Expense(price: 0, timestamp: firstOfMonth), at: 0)
+
         return array
     }
+    
     
     var body: some View {
         ScrollView {
@@ -56,18 +83,18 @@ struct DataView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(textColor)
                     
-                    Chart(lastMonth) { data in
-                        LineMark(x: .value("date", Calendar.current.startOfDay(for: data.timestamp)), y: .value("spent", data.price))
+                    Chart(accumulatedGraph) { data in
+                        LineMark(x: .value("date", data.timestamp), y: .value("spent", data.price))
                             .foregroundStyle(.orange)
                             .interpolationMethod(.cardinal)
                             .lineStyle(.init(lineWidth: 2))
                     }
-                    .chartYScale(domain: 0...maxExpense())
-                    .chartXAxis {
-                        AxisMarks(preset: .extended, values: .stride (by: .day)) { value in
-                            AxisValueLabel(format: .dateTime.day())
-                        }
-                    }
+                    .chartYScale(domain: 0...sum*4/3)
+//                    .chartXAxis {
+//                        AxisMarks(preset: .extended, values: .stride (by: .day)) { value in
+////                            AxisValueLabel(format: .dateTime.day())
+//                        }
+//                    }
                     
                 }
                 .padding()
@@ -79,7 +106,7 @@ struct DataView: View {
             
             VStack {
                 
-                ForEach(expenses) { expense in
+                ForEach(filteredAndSortedExpenses(predicate: {$0.timestamp > $1.timestamp })) { expense in
                     NavigationLink(destination: EditExpenseView(expense: expense)) {
                         RoundedRectangle(cornerRadius: 10)
                             .frame(height: 50)
@@ -97,14 +124,15 @@ struct DataView: View {
                     }
                 }
             }.padding()
-            
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
+                    
                     dismiss()
+                  
                 } label: {
-                    Image(systemName: "arrow.down")
+                    Image(systemName: "arrow.up")
                         .foregroundStyle(textColor)
                 }
             }
@@ -117,15 +145,17 @@ struct DataView: View {
         DataView(expenses: [
             Expense(price: 100, timestamp: Date().addingTimeInterval(-86400)),
             
-            Expense(price: 100, timestamp: Date().addingTimeInterval(-172800)),
             
+            Expense(price: 230, timestamp: Date().addingTimeInterval(-1045600)),
+
             Expense(price: 400, timestamp: Date().addingTimeInterval(-259200)),
             
             Expense(price: 200, timestamp: Date().addingTimeInterval(-545600)),
             
             Expense(price: 450, timestamp: Date().addingTimeInterval(-845600)),
+            Expense(price: 100, timestamp: Date().addingTimeInterval(-172800)),
+
             
-            Expense(price: 230, timestamp: Date().addingTimeInterval(-1045600)),
         ])
         
         .navigationTitle("Food/drinks")

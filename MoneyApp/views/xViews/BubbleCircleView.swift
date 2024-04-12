@@ -62,6 +62,14 @@ struct BubbleCircleView: View {
                     .foregroundStyle(.white)
                 }
                 .contextMenu {
+                    Button {
+                        
+                    } label: {
+                        HStack {
+                            Text("edit")
+                            Image(systemName: "square.and.pencil")
+                        }
+                    }
                     
                     Button {
                         bubbleDeleteViewPresented.toggle()
@@ -69,15 +77,6 @@ struct BubbleCircleView: View {
                         HStack {
                             Text("delete")
                             Image(systemName: "trash")
-                        }
-                    }
-                    
-                    Button {
-                        
-                    } label: {
-                        HStack {
-                            Text("delete")
-                            Image(systemName: "square.and.pencil")
                         }
                     }
                 }
@@ -125,7 +124,6 @@ struct BubbleCircleView: View {
                                         
                                     } label: {
                                         Image(systemName: "square.and.pencil")
-                                            .foregroundStyle(.black)
                                     }
                                 }
                                

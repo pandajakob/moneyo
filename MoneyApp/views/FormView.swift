@@ -23,21 +23,11 @@ struct FormView: View {
     var body: some View {
         VStack(alignment: .center) {
             HStack {
-//                Spacer()
                 TextField("999💰", text: $textField)
                     .multilineTextAlignment(.center)
                     .keyboardType(.numberPad)
                     .focused($isFocused)
-                
-
-                
-                
-//                Text(vm.currency)
-//                    .multilineTextAlignment(.leading)
-//                    Spacer()
-                
             }
-            .foregroundStyle(.black)
             .font(.title).bold()
             .scaledToFit()
             
@@ -53,17 +43,15 @@ struct FormView: View {
                 RoundedRectangle(cornerRadius: 10)
                     .overlay {
                         Image(systemName: "plus")
-                            .foregroundStyle(.white)
                             .bold()
+                            .foregroundStyle(.accent)
                     }
                     .frame(width: 100, height: 50)
-                    .foregroundStyle(isValid ? .black : .secondary)
+                    .foregroundStyle(isValid ? .gray : .gray.opacity(0.3))
             }.disabled(!isValid)
             
         }
         .onTapGesture {
-            isFocused = false
-            
         }
     }
 }

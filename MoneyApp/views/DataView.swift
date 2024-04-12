@@ -60,7 +60,7 @@ struct DataView: View {
         }
         
         
-//        array.insert(Expense(price: 0, timestamp: firstOfMonth), at: 0)
+        array.insert(Expense(price: 0, timestamp: firstOfMonth), at: 0)
 
         return array
     }
@@ -90,11 +90,11 @@ struct DataView: View {
                             .lineStyle(.init(lineWidth: 2))
                     }
                     .chartYScale(domain: 0...sum*4/3)
-//                    .chartXAxis {
-//                        AxisMarks(preset: .extended, values: .stride (by: .day)) { value in
-////                            AxisValueLabel(format: .dateTime.day())
-//                        }
-//                    }
+                    .chartXAxis {
+                        AxisMarks(preset: .extended, values: .stride (by: .day)) { value in
+                            AxisValueLabel(format: .dateTime.day())
+                        }
+                    }
                     
                 }
                 .padding()

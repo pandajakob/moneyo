@@ -30,6 +30,7 @@ class ViewModel: ObservableObject {
         Task {
             do {
                 bubbles = try await BubbleRepository.fetchAllBubbles()
+                print("fetched bubbles succesfully")
             }
             catch {
                 print("[ViewModel] couldn't fetch data \(error)")
@@ -41,6 +42,8 @@ class ViewModel: ObservableObject {
         Task {
             do {
                 allExpensesInABubble = try await ExpenseRepository.fetchAllExpenses(filter: { $0.bubbleId != nil })
+                print("fetched all expenses in a bubble successfully")
+
             }
             catch {
                 print("[ViewModel] couldn't fetch data \(error)")
@@ -54,6 +57,8 @@ class ViewModel: ObservableObject {
         Task {
             do {
                 try await ExpenseRepository.create(newExpense)
+                print("added expenses successfully")
+
             }
             catch {
                 print("[ViewModel] couldn't create expense \(error)")
@@ -66,6 +71,8 @@ class ViewModel: ObservableObject {
         Task {
             do {
                 expensesNotInABubble = try await ExpenseRepository.fetchAllExpenses(filter: { $0.bubbleId == nil })
+                print("fetched all expenses not in a bubble successfully")
+
             } catch {
                 print("[viewModel] couldn't fetch expenses")
             }
@@ -76,6 +83,8 @@ class ViewModel: ObservableObject {
         Task {
             do {
                 try await BubbleRepository.addExpenseToBubble(bubble: bubble, expense: expense)
+                print("added expenses to bubble successfully")
+
             } catch {
                 print("[viewModel] couldn't add expense to bubble")
             }
@@ -86,6 +95,8 @@ class ViewModel: ObservableObject {
         Task {
             do {
                 expensesInBubble = try await BubbleRepository.fetchExpensesForBubble(bubble: bubble)
+                print("fetched expenses for bubble successfully")
+
             }
             catch {
                 print("[viewModel] couldn't fetch expenses for bubble")                
@@ -98,6 +109,7 @@ class ViewModel: ObservableObject {
             do {
                 try await BubbleRepository.deleteBubble(bubble: bubble)
                 bubbles.removeAll(where: {$0.id == bubble.id})
+                print("deleted bubble successfully")
             }
             catch {
                 print("[ViewModel] couldn't delete bubble")
@@ -111,6 +123,8 @@ class ViewModel: ObservableObject {
                 allExpensesInABubble.removeAll(where: {$0.id == expense.id})
                 expensesNotInABubble.removeAll(where: {$0.id == expense.id})
                 expensesNotInABubble.removeAll(where: {$0.id == expense.id})
+                print("deleted expense successfully")
+
             }
             catch {
                 print("[ViewModel] couldn't delete bubble")

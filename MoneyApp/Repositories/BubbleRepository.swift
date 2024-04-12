@@ -7,7 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
-import FirebaseFirestoreSwift
+
 
 struct BubbleRepository {
     static let collection = Firestore.firestore().collection("bubbles")
@@ -19,7 +19,7 @@ struct BubbleRepository {
     
     static func fetchAllBubbles() async throws -> [Bubble] {
         let snapshot = try await collection
-//            .order(by: "timeStamp", descending: true)
+//          
             .getDocuments()
         let data = snapshot.documents.compactMap { document in
             try! document.data(as: Bubble.self)

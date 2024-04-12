@@ -120,10 +120,10 @@
 		C49ECDCD2BBFC83400C24AB0 /* views */ = {
 			isa = PBXGroup;
 			children = (
-				C49ECDD52BBFDBBD00C24AB0 /* AddBubbleView.swift */,
 				C4A19F5E2BBE77D200F91D60 /* BubbleView.swift */,
-				C49ECDD32BBFD02A00C24AB0 /* FormView.swift */,
 				C49ECDCE2BBFC87700C24AB0 /* DataView.swift */,
+				C49ECDD52BBFDBBD00C24AB0 /* AddBubbleView.swift */,
+				C49ECDD32BBFD02A00C24AB0 /* FormView.swift */,
 				C439DDBC2BC554700095CFE6 /* EditExpenseView.swift */,
 				C49ECDD02BBFCE1300C24AB0 /* xViews */,
 			);

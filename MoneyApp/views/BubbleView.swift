@@ -23,9 +23,14 @@ struct BubbleView: View {
                             
                             var grabbedExpense = expense[0]
                             grabbedExpense.bubbleId = bubble.id
+                            
                             Task {
                                 do {
                                     try await vm.addExpenseToBubble(bubble: bubble, expense: grabbedExpense)
+                                    withAnimation {
+                                        vm.expensesNotInABubble.removeAll(where: {$0.id == grabbedExpense.id})
+                                    }
+                                    vm.deleteExpense(expense: grabbedExpense)
                                     vm.fetchAllExpensesNotInABubble()
                                 }
                             }

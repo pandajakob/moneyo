@@ -15,7 +15,7 @@ struct moneyo: App {
     }
     var body: some Scene {
         WindowGroup {
-            BubbleView()
+            TabBarView()
         }
     }
 }

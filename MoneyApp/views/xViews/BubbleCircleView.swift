@@ -10,36 +10,14 @@ import SwiftUI
 struct BubbleCircleView: View {
     @GestureState var locationState = CGPoint(x: 200, y: 200)
     let maxWidth = UIScreen.main.bounds.width
-    let maxHeigth = UIScreen.main.bounds.width
+    let maxHeigth = UIScreen.main.bounds.height
     @State var location = CGPoint()
     
     @State var bubbleDeleteViewPresented = false
     
-    var frame: CGFloat {
-        let screenArea = maxWidth*maxHeigth
-        var sum = 0.0
-        
-        vm.bubbles.forEach({ b in
-            //            sum += b.sumOfExpenses
-        })
-        
-        //        let bubbleArea = screenArea * bubble.sumOfExpenses/sum
-        //        let bubbleDiameter = sqrt(bubbleArea/Double.pi)*2
-        
-        //        print("bubbleSum: ", bubble.sumOfExpenses/sum)
-        //        print("screenArea",screenArea)
-        //        print("diameter", bubbleDiameter)
-        //        print("area", bubbleArea)
-        
-        //        if bubbleDiameter > 80 {
-        //            return CGFloat(bubbleDiameter)
-        //        } else {
-        //            return 80
-        //        }
-        return 150
-        
-        
-    }
+    
+    
+    let frame: CGFloat = 150
     
     let bubble: Bubble
     
@@ -51,7 +29,6 @@ struct BubbleCircleView: View {
         NavigationStack {
             Circle()
                 .frame(width: frame, height: frame)
-            
                 .overlay {
                     VStack {
                         Text(bubble.name)
@@ -113,29 +90,15 @@ struct BubbleCircleView: View {
                 }
                 .sheet(isPresented: $sheet) {
                     NavigationStack {
-                        DataView(expenses: vm.expensesInBubble)
-                            .onAppear {
-                                vm.fetchExpensesForBubble(bubble: bubble)
-                            }
-                            .navigationTitle(bubble.name)
-                            .toolbar {
-                                ToolbarItem(placement: .topBarTrailing) {
-                                    Button {
-                                        
-                                    } label: {
-                                        Image(systemName: "square.and.pencil")
-                                    }
-                                }
-                               
-                            }
-                            
+                            DataView(bubble: bubble)
+                                .environmentObject(ViewModel())
                     }
-                    
                 }
         }
         .onAppear {
             loadLocations(bubble: bubble)
         }
+        
         .sheet(isPresented: $bubbleDeleteViewPresented, content: {
             VStack {
                 Text("are you sure you want to delete \(bubble.name) and its associated expenses?")
@@ -145,14 +108,13 @@ struct BubbleCircleView: View {
                     withAnimation {
                         vm.deleteBubble(bubble: bubble)
                         vm.bubbles.removeAll(where: {$0.id == bubble.id})
-
+                        
                     }
                 } label: {
                     RoundedRectangle(cornerRadius: 10).foregroundStyle(.red)
                         .overlay {
                             Text("yes").font(.headline)
                                 .foregroundStyle(.white)
-                            
                         }
                         .frame(height: 50)
                         .padding()
@@ -164,8 +126,6 @@ struct BubbleCircleView: View {
         
         
     }
-    
-    
     
     let defaults = UserDefaults.standard
     
@@ -182,11 +142,34 @@ struct BubbleCircleView: View {
         let y = defaults.double(forKey: bubble.id.uuidString + "y")
         
         location = CGPoint(x: x, y: y)
-
+        
     }
 }
 
 
 //#Preview {
 //    CtgryCircleView(category: _)
+//}
+
+//var frame: CGFloat {
+//    let totalSum: Double = 20000
+//    
+//    let screenArea = maxWidth*maxHeigth
+//        var bubbleArea: Double {
+//            return screenArea * expenseSum/totalSum
+//        }
+//    
+//    let bubbleDiameter = sqrt(bubbleArea/Double.pi)
+//    
+//            print("expenseSum: ", expenseSum)
+//            print("bubbleSum: ", expenseSum/totalSum)
+//            print("diameter", bubbleDiameter)
+//            print("area", bubbleArea)
+//    
+//    if bubbleDiameter > 80 {
+//        return CGFloat(bubbleDiameter)
+//    } else {
+//        return CGFloat(150)
+//    }
+//    
 //}

@@ -19,8 +19,8 @@ struct BubbleRepository {
     
     static func fetchAllBubbles() async throws -> [Bubble] {
         let snapshot = try await collection
-//          
             .getDocuments()
+        
         let data = snapshot.documents.compactMap { document in
             try! document.data(as: Bubble.self)
         }
@@ -48,6 +48,16 @@ struct BubbleRepository {
         return data
     }
     
+    static func getSumOfExpensesForBubble(bubble: Bubble) async throws -> Double {
+        
+        let aggregateQuery = collection.document(bubble.id.uuidString).collection("expenses").aggregate([AggregateField.sum("price")])
+    
+        let snapshot = try await aggregateQuery.getAggregation(source: .server)
+        
+        let data = snapshot.get(AggregateField.sum("price"))
+
+        return data as! Double        
+    }
 }
 
 private extension DocumentReference {

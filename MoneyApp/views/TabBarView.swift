@@ -10,10 +10,7 @@ import SwiftUI
 struct TabBarView: View {
     @StateObject var vm = ViewModel()
     var body: some View {
-        TabView {
-            
-            
-            
+        TabView {          
             BubbleView()
                 .tabItem {
                     Image(systemName: "bubbles.and.sparkles")

@@ -17,15 +17,23 @@ struct ExpenseRepository {
     }
     
     static func fetchAllExpenses(filter: (Expense) -> Bool) async throws -> [Expense] {
-        
         let snapshot = try await collection
             .order(by: "timestamp", descending: true)
             .getDocuments()
         let data = snapshot.documents.compactMap { document in
             try! document.data(as: Expense.self)
         }
-        
         return data.filter(filter)
+    }
+    
+    static func getSumOfAllExpensesInABubble() async throws -> Double {
+        let aggregateQuery = collection.aggregate([AggregateField.sum("price")])
+    
+        let snapshot = try await aggregateQuery.getAggregation(source: .server)
+        
+        let data = snapshot.get(AggregateField.sum("price"))
+
+        return data as! Double
     }
     
     static func deleteExpense(expense: Expense) async throws {

@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct BubbleView: View {
-    
     @State private var showPopOver = false
     @EnvironmentObject var vm: ViewModel
 
     var body: some View {
         NavigationStack {
             ZStack {
-                if vm.isLoading {
+                if vm.state == .working {
                     ProgressView()
                 }
                 else {
@@ -51,7 +50,7 @@ struct BubbleView: View {
                         
                     }
                     
-                    FormView()
+                    AddExpenseView()
                         .environmentObject(vm)
                         .sheet(isPresented: $showPopOver) {
                             AddBubbleView(createAction: vm.makeCreateAction())

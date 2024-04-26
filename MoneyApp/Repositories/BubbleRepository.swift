@@ -10,15 +10,15 @@ import FirebaseFirestore
 
 
 struct BubbleRepository {
-    static let collection = Firestore.firestore().collection("bubbles")
+    static let collectionRefference = Firestore.firestore().collection("bubbles")
     
     static func create(_ bubble: Bubble) async throws {
-        let document = collection.document(bubble.id.uuidString)
+        let document = collectionRefference.document(bubble.id.uuidString)
         try await document.setData(from: bubble)
     }
     
     static func fetchAllBubbles() async throws -> [Bubble] {
-        let snapshot = try await collection
+        let snapshot = try await collectionRefference
             .getDocuments()
         
         let data = snapshot.documents.compactMap { document in
@@ -28,18 +28,18 @@ struct BubbleRepository {
     }
     
     static func deleteBubble(bubble: Bubble) async throws {
-        let document = collection.document(bubble.id.uuidString)
+        let document = collectionRefference.document(bubble.id.uuidString)
         try await document.delete()
     }
     
     static func addExpenseToBubble(bubble: Bubble, expense: Expense) async throws {
-        let document = collection.document(bubble.id.uuidString).collection("expenses").document(expense.id.uuidString)
+        let document = collectionRefference.document(bubble.id.uuidString).collection("expenses").document(expense.id.uuidString)
         try await document.setData(from: expense)
     }
     
     
     static func fetchExpensesForBubble(bubble: Bubble) async throws -> [Expense] {
-        let snapshot = try await collection.document(bubble.id.uuidString).collection("expenses")
+        let snapshot = try await collectionRefference.document(bubble.id.uuidString).collection("expenses")
 //            .order(by: "timeStamp", descending: true)
             .getDocuments()
         let data = snapshot.documents.compactMap { document in
@@ -49,13 +49,12 @@ struct BubbleRepository {
     }
     
     static func getSumOfExpensesForBubble(bubble: Bubble) async throws -> Double {
-        
-        let aggregateQuery = collection.document(bubble.id.uuidString).collection("expenses").aggregate([AggregateField.sum("price")])
+        let aggregateQuery = collectionRefference.document(bubble.id.uuidString).collection("expenses").aggregate([AggregateField.sum("price")])
     
         let snapshot = try await aggregateQuery.getAggregation(source: .server)
         
         let data = snapshot.get(AggregateField.sum("price"))
-
+        
         return data as! Double        
     }
 }

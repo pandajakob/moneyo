@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FormView: View {
+struct AddExpenseView: View {
     @State private var textField = ""
     @FocusState var isFocused
     
@@ -57,5 +57,5 @@ struct FormView: View {
 }
 
 #Preview {
-    FormView()
+    AddExpenseView()
 }

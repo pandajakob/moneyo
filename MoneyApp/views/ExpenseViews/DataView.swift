@@ -70,7 +70,7 @@ struct DataView: View {
                     RoundedRectangle(cornerRadius: 10)
                         .foregroundStyle(.gray.opacity(0.1))
                         .shadow(radius: 3, x: 3, y: 3)
-                    if vm.isLoading {
+                    if vm.state == .working {
                         ProgressView()
                     } else {
                         VStack(alignment: .leading) {

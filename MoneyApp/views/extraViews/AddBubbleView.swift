@@ -14,9 +14,10 @@ struct AddBubbleView: View {
     
     @State private var bubble: Bubble = Bubble(name: "")
     @FocusState var isFocused
+    
     @State var bubbleColor: BubbleColors = BubbleColors.red
     
-    @State private var state = FormState.idle
+    @State private var state = LoadState.idle
     
     @EnvironmentObject var vm: ViewModel
     
@@ -112,19 +113,7 @@ struct AddBubbleView: View {
     
 }
 private extension AddBubbleView {
-    enum FormState {
-        case idle, working, error
-        
-        var isError: Bool {
-            get {
-                self == .error
-            }
-            set {
-                guard !newValue else { return }
-                self = .idle
-            }
-        }
-    }
+   
 }
 
 //#Preview {

@@ -15,7 +15,7 @@ class ViewModel: ObservableObject {
     @Published var expensesInBubbles: [Expense] = []
     @Published var allExpensesInABubble: [Expense] = []
     
-    @Published var isLoading: Bool = false
+    @Published var state: LoadState = .idle
     
     @Published var currency = "💰"
     
@@ -28,17 +28,18 @@ class ViewModel: ObservableObject {
     
     func fetchBubbles() async {
         Task {
-            isLoading = true
+            state = .working
             do {
                 
                 bubbles = try await BubbleRepository.fetchAllBubbles()
                 print("fetched bubbles succesfully")
-                self.isLoading = false
+                self.state = .idle
                 
             }
             catch {
-                isLoading = false
                 print("[ViewModel] couldn't fetch data \(error)")
+                state = .error
+                
             }
         }
     }
@@ -99,32 +100,37 @@ class ViewModel: ObservableObject {
     
     func fetchExpensesForBubble(bubble: Bubble) async {
         Task {
-            isLoading = true
+            state = .working
             do {
                 expensesInBubbles = try await BubbleRepository.fetchExpensesForBubble(bubble: bubble)
                 print("fetched expenses for bubble successfully")
-                self.isLoading = false
+                state = .idle
             }
             catch {
                 print("[viewModel] couldn't fetch expenses for bubble")
-                self.isLoading = false
-
+                state = .error
+                
             }
         }
     }
     
     func deleteBubble(bubble: Bubble) {
+        
         Task {
+            state = .working
             do {
                 try await BubbleRepository.deleteBubble(bubble: bubble)
                 bubbles.removeAll(where: {$0.id == bubble.id})
                 print("deleted bubble successfully")
+                state = .idle
             }
             catch {
                 print("[ViewModel] couldn't delete bubble")
+                state = .error
             }
         }
     }
+    
     func deleteExpense(expense: Expense) {
         Task {
             do {
@@ -140,4 +146,37 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    
+    func getSumOfAllExpensesInABubble() async -> Double {
+        var sum = 0.0
+        state = .working
+        do {
+            sum = try await ExpenseRepository.getSumOfAllExpensesInABubble()
+            state = .idle
+        }
+        catch {
+            print("Couldn't get sum of all expenses \(error)")
+            state = .error
+        }
+        print("sum of all expenses", sum)
+        return sum
+    }
+    
+    func getSumOfExpensesForBubble(bubble: Bubble) async -> Double {
+        var sum = 0.0
+        state = .working
+        do {
+            sum = try await BubbleRepository.getSumOfExpensesForBubble(bubble: bubble)
+            state = .idle
+            
+        } catch {
+            print("Couldn't get sum of expense for bubble \(error)")
+            state = .error
+        }
+        return sum
+    }
+    
+    
+    
 }
+

@@ -11,6 +11,7 @@ import Foundation
 class ViewModel: ObservableObject {
     
     @Published var bubbles: [Bubble] = []
+    
     @Published var expensesNotInABubble: [Expense] = []
     @Published var expensesInBubbles: [Expense] = []
     @Published var allExpensesInABubble: [Expense] = []
@@ -151,7 +152,7 @@ class ViewModel: ObservableObject {
         var sum = 0.0
         state = .working
         do {
-            sum = try await ExpenseRepository.getSumOfAllExpensesInABubble()
+            return try await ExpenseRepository.getSumOfAllExpensesInABubble()
             state = .idle
         }
         catch {
@@ -177,6 +178,19 @@ class ViewModel: ObservableObject {
     }
     
     
-    
+    enum LoadState {
+        case idle, working, error
+        
+        var isError: Bool {
+            get {
+                self == .error
+            }
+            set {
+                guard !newValue else { return }
+                self = .idle
+            }
+        }
+    }
+
 }
 

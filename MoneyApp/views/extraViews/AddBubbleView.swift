@@ -16,9 +16,7 @@ struct AddBubbleView: View {
     @FocusState var isFocused
     
     @State var bubbleColor: BubbleColors = BubbleColors.red
-    
-    @State private var state = LoadState.idle
-    
+        
     @EnvironmentObject var vm: ViewModel
     
     @Environment(\.dismiss) var dismiss
@@ -26,6 +24,7 @@ struct AddBubbleView: View {
     var formIsValid: Bool {
         !bubble.name.isEmpty
     }
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -41,7 +40,6 @@ struct AddBubbleView: View {
                         .textFieldStyle(.plain)
                         .background(Color.black.opacity(0.1))
                         .clipShape(.buttonBorder)
-                    
                     
                     Menu {
                         Picker("Color", selection: $bubbleColor) {
@@ -71,7 +69,7 @@ struct AddBubbleView: View {
                             .frame(width: 110, height: 55)
                             .shadow(radius: 3, x: 3, y: 3)
                             .overlay {
-                                if state == .working {
+                                if vm.state == .working {
                                     ProgressView()
                                 } else {
                                     Image(systemName: "plus").foregroundStyle(.white)
@@ -82,7 +80,7 @@ struct AddBubbleView: View {
                         .padding(.vertical)
                         .padding(.vertical)
                     
-                } .alert("Cannot Create data", isPresented: $state.isError, actions: {}) {
+                } .alert("Cannot Create data", isPresented: $vm.state.isError, actions: {}) {
                     Text("Sorry, something went wrong.")
                 }
                 
@@ -96,17 +94,16 @@ struct AddBubbleView: View {
     
     private func createBubble() {
         Task {
-            state = .working
+            vm.state = .working
             do {
                 try await createAction(bubble)
                 dismiss()
             }
             catch {
                 print("Cannot create post: \(error)")
-                state = .error
+                vm.state = .error
                 
             }
-            
         }
     }
     

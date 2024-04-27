@@ -51,19 +51,6 @@ extension UTType {
 
 }
 
-enum LoadState {
-    case idle, working, error
-    
-    var isError: Bool {
-        get {
-            self == .error
-        }
-        set {
-            guard !newValue else { return }
-            self = .idle
-        }
-    }
-}
 
 
 

@@ -14,7 +14,7 @@ struct AddExpenseView: View {
     @EnvironmentObject var vm: ViewModel
     
     var isValid: Bool {
-        if Double(textField) != nil {
+        if Double(textField) != nil && textField.count < 8 {
             return true
         }
         return false
@@ -36,7 +36,7 @@ struct AddExpenseView: View {
                 isFocused = false
                 withAnimation {
                     textField.removeAll()
-                    vm.addExpense(price: price)
+                    vm.createExpense(price: price)
                 }
                 
             } label: {

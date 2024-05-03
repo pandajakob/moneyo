@@ -40,7 +40,7 @@ struct BubbleRepository {
     
     static func fetchExpensesForBubble(bubble: Bubble) async throws -> [Expense] {
         let snapshot = try await collectionRefference.document(bubble.id.uuidString).collection("expenses")
-//            .order(by: "timeStamp", descending: true)
+            .order(by: "timestamp", descending: true)
             .getDocuments()
         let data = snapshot.documents.compactMap { document in
             try! document.data(as: Expense.self)

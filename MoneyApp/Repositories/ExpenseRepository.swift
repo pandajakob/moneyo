@@ -9,25 +9,25 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 struct ExpenseRepository {
-    static let collection = Firestore.firestore().collection("expenses")
+    static let collectionRefference = Firestore.firestore().collection("expenses")
     
     static func create(_ expense: Expense) async throws {
-        let document = collection.document(expense.id.uuidString)
+        let document = collectionRefference.document(expense.id.uuidString)
         try await document.setData(from: expense)
     }
     
-    static func fetchAllExpenses(filter: (Expense) -> Bool) async throws -> [Expense] {
-        let snapshot = try await collection
-            .order(by: "timestamp", descending: true)
+    static func fetchAllExpenses() async throws -> [Expense] {
+        let snapshot = try await collectionRefference
+//            .order(by: "timestamp", descending: true)
             .getDocuments()
         let data = snapshot.documents.compactMap { document in
             try! document.data(as: Expense.self)
         }
-        return data.filter(filter)
+        return data
     }
     
     static func getSumOfAllExpensesInABubble() async throws -> Double {
-        let aggregateQuery = collection.aggregate([AggregateField.sum("price")])
+        let aggregateQuery = collectionRefference.aggregate([AggregateField.sum("price")])
     
         let snapshot = try await aggregateQuery.getAggregation(source: .server)
         
@@ -37,7 +37,7 @@ struct ExpenseRepository {
     }
     
     static func deleteExpense(expense: Expense) async throws {
-        let document = collection.document(expense.id.uuidString)
+        let document = collectionRefference.document(expense.id.uuidString)
         try await document.delete()
     }
     

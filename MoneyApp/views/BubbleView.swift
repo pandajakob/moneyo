@@ -19,22 +19,22 @@ struct BubbleView: View {
                 }
                 else {
                     ForEach(vm.bubbles) { bubble in
-                        
-                        
                         BubbleCircleView(bubble: bubble)
                             .foregroundStyle(AppColors().stringToColor(for: bubble.color))
                             .environmentObject(vm)
+                        
                             .dropDestination(for: Expense.self, action: { expense, location in
                                 var grabbedExpense = expense[0]
                                 grabbedExpense.bubbleId = bubble.id
+                                
                                 Task {
                                     do {
                                         try await vm.addExpenseToBubble(bubble: bubble, expense: grabbedExpense)
                                         withAnimation {
+                                            vm.expensesInBubbles.append(grabbedExpense)
+
                                             vm.expensesNotInABubble.removeAll(where: {$0.id == grabbedExpense.id})
                                         }
-                                        vm.deleteExpense(expense: grabbedExpense)
-                                        vm.fetchAllExpensesNotInABubble()
                                     }
                                 }
                                 return true
@@ -47,7 +47,6 @@ struct BubbleView: View {
                             .foregroundStyle(.black)
                             .frame(width: 150, height: 60)
                             .environmentObject(vm)
-                        
                     }
                     
                     AddExpenseView()
@@ -62,6 +61,7 @@ struct BubbleView: View {
             }
             .task {
                 await vm.fetchBubbles()
+                await vm.fetchAllExpenses()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

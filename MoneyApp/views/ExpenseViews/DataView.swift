@@ -9,17 +9,15 @@ import SwiftUI
 import Charts
 
 
-extension Date {
-    
-}
-
 struct DataView: View {
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
-    @State var rotateArrow = true
+    
+    @Binding var expenses: [Expense]
     
     let bubble: Bubble
+    
     var textColor: Color {
         colorScheme == .dark ? .white : .black
     }
@@ -35,14 +33,16 @@ struct DataView: View {
     }
     
     func filteredAndSortedExpenses(predicate: (Expense, Expense) -> Bool) -> [Expense] {
-        vm.expensesInBubbles
+        expenses
             .filter({$0.timestamp >= firstOfMonth })
             .sorted(by: predicate)
     }
+    
     var sumOfExpenses: Int {
         guard let num = accumulatedGraph.last?.price else { return 0 }
         return Int(num)
     }
+    
     var accumulatedGraph: [Expense] {
         var array: [Expense] = []
         
@@ -61,7 +61,9 @@ struct DataView: View {
         
         return array
     }
-    
+    var endDate: Date {
+        Calendar.current.date(byAdding: .day, value: 30, to: Date()) ?? Date()
+    }
     
     var body: some View {
         NavigationStack {
@@ -89,6 +91,7 @@ struct DataView: View {
                                     .lineStyle(.init(lineWidth: 2))
                             }
                             .chartYScale(domain: 0...(sumOfExpenses)*4/3)
+                            .chartXScale(domain: firstOfMonth ... endDate)
                             .chartXAxis {
                                 AxisMarks(preset: .extended, values: .stride (by: .day)) { value in
                                     AxisValueLabel(format: .dateTime.day())
@@ -126,9 +129,6 @@ struct DataView: View {
                 }.padding()
             }
         }
-        .task {
-            await vm.fetchExpensesForBubble(bubble: bubble)
-        }
         .navigationTitle(bubble.name)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -153,9 +153,9 @@ struct DataView: View {
 }
 
 
-#Preview {
-    NavigationStack {
-        DataView(bubble: Bubble(name: "Bubble"))
-            .navigationTitle("Food/drinks")
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        DataView(expenses: $vm.expensesInBubbles, bubble: Bubble(name: "Bubble"))
+//            .navigationTitle("Food/drinks")
+//    }
+//}

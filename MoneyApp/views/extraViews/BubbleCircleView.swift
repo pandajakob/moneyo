@@ -9,39 +9,48 @@ import SwiftUI
 
 struct BubbleCircleView: View {
     @EnvironmentObject var vm: ViewModel
+    
     let bubble: Bubble
-
+    
     let maxWidth = UIScreen.main.bounds.width
     let maxHeigth = UIScreen.main.bounds.height
     
     @GestureState var locationState = CGPoint(x: 200, y: 200)
-    @State var location = CGPoint()
-
-    @State var sumOfAllExpenses = 3.0
-    @State var sumOfExpenses = 1.0
+    @State private var location = CGPoint()
+    
+    @State private var expenses = [Expense]()
+    
+    var sumOfAllExpenses: Double {
+        withAnimation {
+            vm.sumOfAllExpenses()
+        }
+    }
+    var sumOfExpenses: Double {
+        withAnimation {
+            vm.sumOfExpenses(for: bubble)
+        }
+    }
     
     var frame: CGFloat {
-        return 150
-        //        let screenArea = maxWidth*maxHeigth
-        //
-        //        var bubbleArea: Double {
-        //            return screenArea * sumOfExpenses/sumOfAllExpenses
-        //        }
-        //
-        //        let bubbleDiameter = sqrt(bubbleArea/Double.pi)
-        //
-        //        print("expenseSum: ", sumOfAllExpenses)
-        //        print("bubbleSum: ", sumOfAllExpenses/sumOfExpenses)
-        //        print("diameter", bubbleDiameter)
-        //        print("area", bubbleArea)
-        //
-        //        if bubbleDiameter > 80 {
-        //            return CGFloat(bubbleDiameter)
-        //        } else {
-        //            return CGFloat(150)
-        //        }
-    }
+        let screenArea = maxWidth*maxHeigth
+        var bubbleArea: Double {
+            return screenArea * sumOfExpenses/sumOfAllExpenses
+        }
         
+        let bubbleDiameter = sqrt(bubbleArea/Double.pi)
+        
+//        print("expenseSum: ", sumOfAllExpenses)
+//        print("bubbleSum: ", sumOfAllExpenses/sumOfExpenses)
+//        print("diameter", bubbleDiameter)
+//        print("area", bubbleArea)
+        
+        if bubbleDiameter > 80 {
+            return CGFloat(bubbleDiameter)
+        } else {
+            return CGFloat(150)
+        }
+    }
+    
     @State var deleteConfirmationIsPresented = false
     @State var dataViewIsPresented = false
     
@@ -93,22 +102,23 @@ struct BubbleCircleView: View {
                     dataViewIsPresented.toggle()
                 }
         }
+        
         .task {
             loadLocations(bubble: bubble)
+            expenses = await vm.fetchExpensesForBubble(bubble: bubble)
+            print("exp", expenses)
         }
         .sheet(isPresented: $dataViewIsPresented) {
-            DataView(bubble: bubble)
+            DataView(expenses: $expenses, bubble: bubble)
                 .environmentObject(vm)
         }
         .confirmationDialog("delete bubble", isPresented: $deleteConfirmationIsPresented) {
-            Button("delete bubble", role: .destructive) { vm.deleteBubble(bubble: bubble) 
+            Button("delete bubble", role: .destructive) { vm.deleteBubble(bubble: bubble)
                 vm.bubbles.removeAll(where: {$0.id == bubble.id}) // update UI
             }
         } message: {
             Text("Are you sure you want to delete this bubble?")
         }
-        
-        
     }
     
     let defaults = UserDefaults.standard

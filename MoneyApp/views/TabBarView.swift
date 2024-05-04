@@ -24,10 +24,11 @@ struct TabBarView: View {
                     }
                     .environmentObject(vm)
                 
-                EditExpenseView(expense: Expense(price: 100))
+                BubbleView()
                     .tabItem {
                         Image(systemName: "gear")
                     }
+                    .environmentObject(vm)
             }
         
     }

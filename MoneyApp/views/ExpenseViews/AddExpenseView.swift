@@ -18,7 +18,6 @@ struct AddExpenseView: View {
             return true
         }
         return false
-        
     }
     var body: some View {
         VStack(alignment: .center) {

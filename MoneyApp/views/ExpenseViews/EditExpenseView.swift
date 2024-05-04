@@ -8,12 +8,21 @@
 import SwiftUI
 
 struct EditExpenseView: View {
-    let expense: Expense
+    @Binding var expense: Expense
+    
+    @EnvironmentObject var vm: ViewModel
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            Form {
+//                TextField("amount", value: $expense.price, formatter: NumberFormatter())
+                Text("hello")
+            }
+        }
+        
+      
     }
 }
 
-//#Preview {
-//    EditExpenseView()
-//}
+

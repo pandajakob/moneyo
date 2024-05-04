@@ -109,21 +109,11 @@ struct DataView: View {
                 
                 VStack {
                     ForEach(filteredAndSortedExpenses(predicate: {$0.timestamp > $1.timestamp })) { expense in
-                        NavigationLink(destination: EditExpenseView(expense: expense)) {
-                            RoundedRectangle(cornerRadius: 10)
+                        if let bindingExpense = $expenses.first(where: {$0.id == expense.id}) 
+                        {
+                            ExpenseView(expense: bindingExpense)
                                 .frame(height: 50)
-                                .overlay {
-                                    HStack {
-                                        Text(expense.timestamp.formatted())
-                                        Spacer()
-                                        Text("\(Int(expense.price))" + "💰")
-                                    }
-                                    .foregroundStyle(textColor)
-                                    .font(.subheadline).fontWeight(.medium)
-                                    .padding(.horizontal)
-                                }
-                            
-                                .foregroundStyle(.gray.opacity(0.2))
+                                .environmentObject(vm)
                         }
                     }
                 }.padding()

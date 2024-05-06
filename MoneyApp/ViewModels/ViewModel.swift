@@ -59,7 +59,7 @@ class ViewModel: ObservableObject {
         }
     }
 
-    func fetchAllExpenses() async {
+    func fetchAllExpenses() {
         state = .working
         Task {
             do {
@@ -126,14 +126,14 @@ class ViewModel: ObservableObject {
         Task {
             do {
                 try await ExpenseRepository.deleteExpense(expense: expense)
-                expensesInBubbles.removeAll(where: {$0.id == expense.id})
-                expensesNotInABubble.removeAll(where: {$0.id == expense.id})
+                try await BubbleRepository.deleteExpenseFromBubble(expense: expense)
                 print("deleted expense successfully")
             }
             catch {
                 print("[ViewModel] couldn't delete bubble")
             }
         }
+        
     }
     
 //    func getSumOfAllExpensesInABubble() async -> Double {

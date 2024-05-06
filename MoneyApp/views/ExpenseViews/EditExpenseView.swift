@@ -12,16 +12,58 @@ struct EditExpenseView: View {
     
     @EnvironmentObject var vm: ViewModel
     @Environment(\.dismiss) var dismiss
-
+    
     var body: some View {
         NavigationStack {
-            Form {
-//                TextField("amount", value: $expense.price, formatter: NumberFormatter())
-                Text("hello")
+            ZStack {
+                Form {
+                    Section("Price") {
+                        TextField("amount", value: $expense.price, formatter: NumberFormatter())
+                            .keyboardType(.numberPad)
+                    }
+                    Section("Date") {
+                        DatePicker("Date", selection: $expense.timestamp)
+                    }
+                }
+                VStack {
+                    Spacer()
+                    HStack {
+                        Button {
+                            vm.expensesInBubbles.removeAll(where: {$0.id == expense.id})
+                            vm.deleteExpense(expense: expense)
+                            dismiss()
+                        } label: {
+                            RoundedRectangle(cornerRadius: 30)
+                                .frame(width: 120, height: 60)
+                                .foregroundStyle(.red)
+                                .padding()
+                                .overlay {
+                                    Text("delete").font(.headline).foregroundStyle(.white)
+                                }
+                        }
+                        Spacer()
+                        Button {
+                            
+                            dismiss()
+//                            if let index = vm.expensesInBubbles.firstIndex(where: {$0.id == expense.id}) {
+//                                vm.expensesInBubbles[index].price =
+//                            }
+                        } label: {
+                            RoundedRectangle(cornerRadius: 30)
+                                .frame(width: 120, height: 60)
+                                .foregroundStyle(.blue)
+                                .padding()
+                                .overlay {
+                                    Text("submit").font(.headline).foregroundStyle(.white)
+                                }
+                                
+                        }
+                    }
+                }
             }
         }
         
-      
+        
     }
 }
 

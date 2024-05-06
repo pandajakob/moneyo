@@ -27,7 +27,7 @@ struct ExpenseView: View {
                         .fontWeight(.medium)
                         .padding(.horizontal)
                     }
-                    .foregroundStyle(.gray.opacity(0.2))
+                    .foregroundStyle(AppColors().stringToColor(for: vm.bubbles.first(where: {$0.id == expense.bubbleId})?.color ?? ""))
             }
         }
     }

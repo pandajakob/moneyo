@@ -18,7 +18,7 @@ struct TabBarView: View {
                     }
                     .environmentObject(vm)
                 
-                DataView(expenses: $vm.expensesInBubbles, bubble: Bubble(name: "All Expenses"))
+                BubbleView()
                     .tabItem {
                         Image(systemName: "chart.bar")
                     }

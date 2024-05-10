@@ -37,17 +37,17 @@ struct BubbleCircleView: View {
             return screenArea * sumOfExpenses/sumOfAllExpenses
         }
         
-        let bubbleDiameter = sqrt(bubbleArea/Double.pi)
+        let bubbleDiameter = sqrt(bubbleArea/Double.pi)*1.25
         
 //        print("expenseSum: ", sumOfAllExpenses)
 //        print("bubbleSum: ", sumOfAllExpenses/sumOfExpenses)
 //        print("diameter", bubbleDiameter)
 //        print("area", bubbleArea)
         
-        if bubbleDiameter > 80 {
+        if bubbleDiameter > 130 {
             return CGFloat(bubbleDiameter)
         } else {
-            return CGFloat(150)
+            return CGFloat(130)
         }
     }
     
@@ -106,7 +106,6 @@ struct BubbleCircleView: View {
         .task {
             loadLocations(bubble: bubble)
             expenses = await vm.fetchExpensesForBubble(bubble: bubble)
-            print("exp", expenses)
         }
         .sheet(isPresented: $dataViewIsPresented) {
             DataView(expenses: $expenses, bubble: bubble)

@@ -74,7 +74,10 @@ struct DataView: View {
                         .shadow(radius: 3, x: 3, y: 3)
                     if vm.state == .working {
                         ProgressView()
-                    } else {
+                    } else if expenses.isEmpty {
+                        Text("No data to display").font(.headline).foregroundStyle(textColor)
+                    }
+                    else {
                         VStack(alignment: .leading) {
                             Text("January")
                                 .font(.title3).bold()
@@ -111,7 +114,7 @@ struct DataView: View {
                     ForEach(filteredAndSortedExpenses(predicate: {$0.timestamp > $1.timestamp })) { expense in
                         if let bindingExpense = $expenses.first(where: {$0.id == expense.id}) 
                         {
-                            ExpenseView(expense: bindingExpense)
+                            ExpenseView(expense: bindingExpense, expenses: $expenses)
                                 .frame(height: 50)
                                 .environmentObject(vm)
                         }

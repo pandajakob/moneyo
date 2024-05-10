@@ -13,10 +13,11 @@ struct ExpenseRectangleView: View {
     
     @GestureState var locationState = CGPoint(x: 100, y: 100)
     @State var location = CGPoint(x: 100, y: 100)
-
+    
     var body: some View {
         RoundedRectangle(cornerRadius: 10)
             .overlay {
+            
                 Text("\(Int(expense.price))" + ViewModel().currency)
                     .font(.title2)
                     .bold()
@@ -30,12 +31,6 @@ struct ExpenseRectangleView: View {
                         transaction.animation = .easeInOut
                         
                     }
-                
-                    .onChanged { state in
-                        withAnimation {
-                            location = state.location
-                        }
-                    }
                     .onChanged { state in
                         withAnimation {
                             location = state.location
@@ -44,6 +39,7 @@ struct ExpenseRectangleView: View {
                     
             )
             .draggable(expense)
+           
     }
 }
 

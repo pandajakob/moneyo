@@ -9,10 +9,10 @@ import SwiftUI
 
 struct EditExpenseView: View {
     @Binding var expense: Expense
-    
     @EnvironmentObject var vm: ViewModel
     @Environment(\.dismiss) var dismiss
-    
+    @Binding var expenses: [Expense]
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -29,8 +29,13 @@ struct EditExpenseView: View {
                     Spacer()
                     HStack {
                         Button {
-                            vm.expensesInBubbles.removeAll(where: {$0.id == expense.id})
-                            vm.deleteExpense(expense: expense)
+                            withAnimation {
+                                print("[editExpenseBiew] expense:", expense)
+                                vm.deleteExpense(expense: expense)
+                                vm.expensesInBubbles.removeAll(where: {$0.id == expense.id})
+                                expenses.removeAll(where: {$0.id == expense.id})
+                                
+                            }
                             dismiss()
                         } label: {
                             RoundedRectangle(cornerRadius: 30)
@@ -43,7 +48,6 @@ struct EditExpenseView: View {
                         }
                         Spacer()
                         Button {
-                            
                             dismiss()
 //                            if let index = vm.expensesInBubbles.firstIndex(where: {$0.id == expense.id}) {
 //                                vm.expensesInBubbles[index].price =

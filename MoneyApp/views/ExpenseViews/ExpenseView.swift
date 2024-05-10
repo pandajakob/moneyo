@@ -11,9 +11,10 @@ struct ExpenseView: View {
     @EnvironmentObject var vm: ViewModel
     @Environment(\.colorScheme) var colorScheme
     @Binding var expense: Expense
+    @Binding var expenses: [Expense]
     var body: some View {
         NavigationView {
-            NavigationLink(destination: EditExpenseView(expense: $expense)) {
+            NavigationLink(destination: EditExpenseView(expense: $expense, expenses: $expenses)) {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(height: 50)
                     .overlay {

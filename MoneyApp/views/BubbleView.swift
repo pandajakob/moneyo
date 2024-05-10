@@ -26,15 +26,15 @@ struct BubbleView: View {
                             .dropDestination(for: Expense.self, action: { expense, location in
                                 var grabbedExpense = expense[0]
                                 grabbedExpense.bubbleId = bubble.id
-                                
+                                withAnimation {
+                                    vm.expensesInBubbles.append(grabbedExpense)
+
+                                    vm.expensesNotInABubble.removeAll(where: {$0.id == grabbedExpense.id})
+                                }
                                 Task {
                                     do {
                                         try await vm.addExpenseToBubble(bubble: bubble, expense: grabbedExpense)
-                                        withAnimation {
-                                            vm.expensesInBubbles.append(grabbedExpense)
-
-                                            vm.expensesNotInABubble.removeAll(where: {$0.id == grabbedExpense.id})
-                                        }
+                                       
                                     }
                                 }
                                 return true
@@ -61,7 +61,7 @@ struct BubbleView: View {
             }
             .task {
                 await vm.fetchBubbles()
-                await vm.fetchAllExpenses()
+                vm.fetchAllExpenses()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

@@ -50,8 +50,6 @@ struct AddExpenseView: View {
             }.disabled(!isValid)
             
         }
-        .onTapGesture {
-        }
     }
 }
 

@@ -32,9 +32,8 @@ struct EditExpenseView: View {
                             withAnimation {
                                 print("[editExpenseBiew] expense:", expense)
                                 vm.deleteExpense(expense: expense)
-                                vm.expensesInBubbles.removeAll(where: {$0.id == expense.id})
                                 expenses.removeAll(where: {$0.id == expense.id})
-                                
+                                vm.expensesInBubbles.removeAll(where: {$0.id == expense.id})
                             }
                             dismiss()
                         } label: {

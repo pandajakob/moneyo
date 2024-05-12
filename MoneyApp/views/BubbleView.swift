@@ -18,11 +18,13 @@ struct BubbleView: View {
                     ProgressView()
                 }
                 else {
+                    VStack {
+                        Spacer()
+                    }
                     ForEach(vm.bubbles) { bubble in
                         BubbleCircleView(bubble: bubble)
                             .foregroundStyle(AppColors().stringToColor(for: bubble.color))
                             .environmentObject(vm)
-                        
                             .dropDestination(for: Expense.self, action: { expense, location in
                                 var grabbedExpense = expense[0]
                                 grabbedExpense.bubbleId = bubble.id

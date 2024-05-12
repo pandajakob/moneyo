@@ -31,6 +31,7 @@
 		C4BB4F402BC45AA600A77E1D /* moneyo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB4F3F2BC45AA600A77E1D /* moneyo.swift */; };
 		C4BB4F422BC46C7100A77E1D /* BubbleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB4F412BC46C7100A77E1D /* BubbleRepository.swift */; };
 		C4BB4F462BC4745C00A77E1D /* ExpenseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB4F452BC4745C00A77E1D /* ExpenseRepository.swift */; };
+		C4E207AA2BF05AC500C3FC6C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E207A92BF05AC500C3FC6C /* SettingsView.swift */; };
 		C4F163942BBF34F100BB99CC /* ExpenseRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F163932BBF34F100BB99CC /* ExpenseRectangleView.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +55,7 @@
 		C4BB4F3F2BC45AA600A77E1D /* moneyo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moneyo.swift; sourceTree = "<group>"; };
 		C4BB4F412BC46C7100A77E1D /* BubbleRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleRepository.swift; sourceTree = "<group>"; };
 		C4BB4F452BC4745C00A77E1D /* ExpenseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRepository.swift; sourceTree = "<group>"; };
+		C4E207A92BF05AC500C3FC6C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C4F163932BBF34F100BB99CC /* ExpenseRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseRectangleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -123,6 +125,7 @@
 			children = (
 				C495E1862BCC298A003B08DF /* TabBarView.swift */,
 				C4A19F5E2BBE77D200F91D60 /* BubbleView.swift */,
+				C4E207A92BF05AC500C3FC6C /* SettingsView.swift */,
 				C4CED4642BCA9065004E4506 /* ExpenseViews */,
 				C49ECDD02BBFCE1300C24AB0 /* extraViews */,
 			);
@@ -281,6 +284,7 @@
 				C428828F2BBE8BC6002CC5DC /* model.swift in Sources */,
 				C44AA6522BBEE707004B20CE /* BubbleCircleView.swift in Sources */,
 				C49ECDD22BBFCF7500C24AB0 /* AppColors.swift in Sources */,
+				C4E207AA2BF05AC500C3FC6C /* SettingsView.swift in Sources */,
 				C49ECDD42BBFD02A00C24AB0 /* AddExpenseView.swift in Sources */,
 				C495E1872BCC298A003B08DF /* TabBarView.swift in Sources */,
 				C4BB4F422BC46C7100A77E1D /* BubbleRepository.swift in Sources */,

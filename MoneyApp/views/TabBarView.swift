@@ -17,14 +17,13 @@ struct TabBarView: View {
                         Image(systemName: "bubbles.and.sparkles")
                     }
                     .environmentObject(vm)
-                
-                BubbleView()
+                DataView(expenses: $vm.expensesInBubbles, bubble: Bubble(name: "all"))
                     .tabItem {
                         Image(systemName: "chart.bar")
                     }
                     .environmentObject(vm)
                 
-                BubbleView()
+                SettingsView()
                     .tabItem {
                         Image(systemName: "gear")
                     }

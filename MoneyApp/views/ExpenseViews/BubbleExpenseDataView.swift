@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 
-struct DataView: View {
+struct BubbleExpenseDataView: View {
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
@@ -65,6 +65,13 @@ struct DataView: View {
         Calendar.current.date(byAdding: .day, value: 30, to: Date()) ?? Date()
     }
     
+    var monthString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        let date = dateFormatter.string(from: firstOfMonth)
+        return date
+    }
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -74,9 +81,12 @@ struct DataView: View {
                         .shadow(radius: 3, x: 3, y: 3)
                     if vm.state == .working {
                         ProgressView()
-                    } else {
+                    } else if expenses.isEmpty {
+                        Text("No data to display").font(.headline).foregroundStyle(textColor)
+                    }
+                    else {
                         VStack(alignment: .leading) {
-                            Text("January")
+                            Text(monthString)
                                 .font(.title3).bold()
                                 .foregroundStyle(textColor)
                             
@@ -107,23 +117,13 @@ struct DataView: View {
                 .frame(height: 250)
                 .padding()
                 
-                VStack {
+                LazyVStack {
                     ForEach(filteredAndSortedExpenses(predicate: {$0.timestamp > $1.timestamp })) { expense in
-                        NavigationLink(destination: EditExpenseView(expense: expense)) {
-                            RoundedRectangle(cornerRadius: 10)
+                        if let bindingExpense = $expenses.first(where: {$0.id == expense.id}) 
+                        {
+                            ExpenseView(expense: bindingExpense, expenses: $expenses)
                                 .frame(height: 50)
-                                .overlay {
-                                    HStack {
-                                        Text(expense.timestamp.formatted())
-                                        Spacer()
-                                        Text("\(Int(expense.price))" + "💰")
-                                    }
-                                    .foregroundStyle(textColor)
-                                    .font(.subheadline).fontWeight(.medium)
-                                    .padding(.horizontal)
-                                }
-                            
-                                .foregroundStyle(.gray.opacity(0.2))
+                                .environmentObject(vm)
                         }
                     }
                 }.padding()

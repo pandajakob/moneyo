@@ -47,15 +47,23 @@ struct BubbleRepository {
         }
         return data
     }
+    static func deleteExpenseFromBubble(expense: Expense) async throws {
+        if let bubbleId = expense.bubbleId {
+            let document = collectionRefference.document(bubbleId.uuidString).collection("expenses").document(expense.id.uuidString)
+                try await document.delete()
+
+        }
+
+    }
     
     static func getSumOfExpensesForBubble(bubble: Bubble) async throws -> Double {
         let aggregateQuery = collectionRefference.document(bubble.id.uuidString).collection("expenses").aggregate([AggregateField.sum("price")])
-    
+        
         let snapshot = try await aggregateQuery.getAggregation(source: .server)
         
         let data = snapshot.get(AggregateField.sum("price"))
         
-        return data as! Double        
+        return data as! Double
     }
 }
 

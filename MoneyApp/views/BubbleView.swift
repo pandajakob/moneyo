@@ -18,27 +18,14 @@ struct BubbleView: View {
                     ProgressView()
                 }
                 else {
+                    VStack {
+                        Spacer()
+                    }
                     ForEach(vm.bubbles) { bubble in
                         BubbleCircleView(bubble: bubble)
-                            .foregroundStyle(AppColors().stringToColor(for: bubble.color))
                             .environmentObject(vm)
-                        
-                            .dropDestination(for: Expense.self, action: { expense, location in
-                                var grabbedExpense = expense[0]
-                                grabbedExpense.bubbleId = bubble.id
-                                
-                                Task {
-                                    do {
-                                        try await vm.addExpenseToBubble(bubble: bubble, expense: grabbedExpense)
-                                        withAnimation {
-                                            vm.expensesInBubbles.append(grabbedExpense)
-
-                                            vm.expensesNotInABubble.removeAll(where: {$0.id == grabbedExpense.id})
-                                        }
-                                    }
-                                }
-                                return true
-                            })
+                            .foregroundStyle(AppColors().stringToColor(for: bubble.color))
+                 
                     }
                     
                     
@@ -59,10 +46,7 @@ struct BubbleView: View {
                     
                 }
             }
-            .task {
-                await vm.fetchBubbles()
-                await vm.fetchAllExpenses()
-            }
+            
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {

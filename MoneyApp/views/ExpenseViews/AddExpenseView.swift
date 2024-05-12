@@ -18,7 +18,6 @@ struct AddExpenseView: View {
             return true
         }
         return false
-        
     }
     var body: some View {
         VStack(alignment: .center) {
@@ -50,8 +49,6 @@ struct AddExpenseView: View {
                     .foregroundStyle(isValid ? .gray : .gray.opacity(0.3))
             }.disabled(!isValid)
             
-        }
-        .onTapGesture {
         }
     }
 }

@@ -17,17 +17,20 @@ struct TabBarView: View {
                         Image(systemName: "bubbles.and.sparkles")
                     }
                     .environmentObject(vm)
-                
-                DataView(expenses: $vm.expensesInBubbles, bubble: Bubble(name: "All Expenses"))
+                DataView()
                     .tabItem {
                         Image(systemName: "chart.bar")
                     }
                     .environmentObject(vm)
                 
-                EditExpenseView(expense: Expense(price: 100))
+                SettingsView()
                     .tabItem {
                         Image(systemName: "gear")
                     }
+                    .environmentObject(vm)
+            }.task {
+                await vm.fetchBubbles()
+                vm.fetchAllExpenses()
             }
         
     }

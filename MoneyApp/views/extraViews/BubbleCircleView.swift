@@ -18,7 +18,7 @@ struct BubbleCircleView: View {
     @GestureState var locationState = CGPoint(x: 200, y: 200)
     @State private var location = CGPoint()
     
-    @State private var expenses = [Expense]()
+    @State var expenses = [Expense]()
     
     var sumOfAllExpenses: Double {
         withAnimation {
@@ -36,14 +36,7 @@ struct BubbleCircleView: View {
         var bubbleArea: Double {
             return screenArea * sumOfExpenses/sumOfAllExpenses
         }
-        
-        let bubbleDiameter = sqrt(bubbleArea/Double.pi)*1.25
-        
-//        print("expenseSum: ", sumOfAllExpenses)
-//        print("bubbleSum: ", sumOfAllExpenses/sumOfExpenses)
-//        print("diameter", bubbleDiameter)
-//        print("area", bubbleArea)
-        
+        let bubbleDiameter = sqrt(bubbleArea/Double.pi)*1.2
         if bubbleDiameter > 130 {
             return CGFloat(bubbleDiameter)
         } else {
@@ -102,13 +95,27 @@ struct BubbleCircleView: View {
                     dataViewIsPresented.toggle()
                 }
         }
-        
+        .dropDestination(for: Expense.self, action: { expense, location in
+            var grabbedExpense = expense[0]
+            grabbedExpense.bubbleId = bubble.id
+            withAnimation {
+                vm.expensesInBubbles.append(grabbedExpense)
+                vm.expensesNotInABubble.removeAll(where: { $0.id == grabbedExpense.id})
+                expenses.append(grabbedExpense)
+            }
+            Task {
+                do {
+                    try await vm.addExpenseToBubble(bubble: bubble, expense: grabbedExpense)
+                }
+            }
+            return true
+        })
         .task {
             loadLocations(bubble: bubble)
             expenses = await vm.fetchExpensesForBubble(bubble: bubble)
         }
         .sheet(isPresented: $dataViewIsPresented) {
-            DataView(expenses: $expenses, bubble: bubble)
+            BubbleExpenseDataView(expenses: $expenses, bubble: bubble)
                 .environmentObject(vm)
         }
         .confirmationDialog("delete bubble", isPresented: $deleteConfirmationIsPresented) {

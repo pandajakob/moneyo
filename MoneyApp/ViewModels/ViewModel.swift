@@ -15,7 +15,7 @@ class ViewModel: ObservableObject {
     
     @Published var expensesNotInABubble: [Expense] = []
     
-    @Published var state: LoadState = .idle
+    @Published var state: LoadState = .working
     
     @Published var currency = "💰"
     

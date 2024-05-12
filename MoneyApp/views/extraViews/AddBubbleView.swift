@@ -97,6 +97,7 @@ struct AddBubbleView: View {
             vm.state = .working
             do {
                 try await createAction(bubble)
+                vm.state = .idle
                 dismiss()
             }
             catch {

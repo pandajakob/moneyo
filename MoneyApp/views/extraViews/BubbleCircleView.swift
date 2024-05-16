@@ -98,7 +98,7 @@ struct BubbleCircleView: View {
         .dropDestination(for: Expense.self, action: { expense, location in
             var grabbedExpense = expense[0]
             grabbedExpense.bubbleId = bubble.id
-            withAnimation {
+            withAnimation(.bouncy(duration: 1.3)) {
                 vm.expensesInBubbles.append(grabbedExpense)
                 vm.expensesNotInABubble.removeAll(where: { $0.id == grabbedExpense.id})
                 expenses.append(grabbedExpense)
